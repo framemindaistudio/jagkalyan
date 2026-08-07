@@ -3,6 +3,7 @@ import { Instrument_Serif, Inter, DM_Sans } from "next/font/google";
 import { SITE } from "@/lib/site";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -69,6 +70,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <SmoothScroll />
         <Header />
         <main id="main">{children}</main>
         <Footer />

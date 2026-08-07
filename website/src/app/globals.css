@@ -116,7 +116,13 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /*
+      Left as `auto` on purpose. Lenis (components/smooth-scroll.tsx) owns
+      scrolling and eases anchor jumps itself; CSS smooth scrolling on top
+      of it makes the two interpolators fight and the page judder.
+      The reduced-motion block below is what restores instant jumps.
+    */
+    scroll-behavior: auto;
     background: var(--color-void);
     /* Stops the white flash between cosmic sections on overscroll. */
     color-scheme: dark;
@@ -322,23 +328,89 @@
 }
 
 /* ------------------------------------------------------------------
-   Accessibility: honour reduced motion. The parallax and orbit systems
-   also check this in JS, but these kill the decorative CSS loops.
+   Accessibility: reduced motion.
+
+   The cosmic hero's five acts are stacked absolutely on top of one another
+   and separated only *in time*, by scroll-driven opacity. Remove the motion
+   and they would all be visible at once — five overlapping layers of text
+   on top of the Earth, completely unreadable. (This shipped once. It looked
+   exactly as bad as it sounds.)
+
+   So reduced motion here is not "the same layout, held still". It is a
+   different layout: the section un-pins, and each act returns to normal
+   document flow as an ordinary stacked block that you simply scroll past.
+   Same content, same order, no motion, nothing overlapping.
+
+   These rules must use `!important` — they are deliberately overriding the
+   inline styles Motion writes, which is the only way to win against them.
    ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+
+  /* Collapse the scroll runway; nothing is being timed to it any more. */
+  .cinema {
+    height: auto !important;
+  }
+
+  .cinema-stage {
+    position: relative !important;
+    height: auto !important;
+    top: auto !important;
+  }
+
+  /* Acts rejoin the document instead of stacking on top of each other. */
+  .cinema-act {
+    position: relative !important;
+    inset: auto !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    min-height: 60vh;
+    padding: 5rem 1.25rem;
+    /* Act II centres its orbit and caption as a flex ROW. In flow the
+       caption must sit under the orbit it describes, not beside it. */
+    flex-direction: column !important;
+  }
+
+  /* Inner wrappers that only existed to be transformed by the camera. */
+  .cinema-reset-transform {
+    transform: none !important;
+  }
+  .cinema-reset-opacity {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* The Swadharma caption was pinned to the viewport bottom; in flow it
+     just follows the orbit it describes. */
+  .cinema-caption {
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    margin: 3rem auto 0 !important;
+  }
+
+  /* "Scroll to begin" is meaningless once the page is a normal document. */
+  .cinema-hide-static {
+    display: none !important;
+  }
+
   .animate-drift,
   .animate-drift-reverse,
   .animate-breathe {
-    animation: none;
+    animation: none !important;
   }
+
   *,
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

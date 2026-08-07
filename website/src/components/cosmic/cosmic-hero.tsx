@@ -4,8 +4,8 @@ import { useRef } from "react";
 import Link from "next/link";
 import {
   motion,
-  useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
   type MotionValue,
 } from "motion/react";
@@ -27,35 +27,57 @@ import { cn } from "@/lib/cn";
  *   V.   Creed        — the promise the whole mission rests on.
  *
  * The section is 520vh tall and its first child is `sticky`, which is what
- * converts vertical scrolling into time. Everything below reads a single
- * `progress` value (0→1) and maps its own behaviour off it, so the acts
- * overlap and cross-dissolve instead of cutting.
+ * converts vertical scrolling into time. Every act reads one `progress`
+ * value (0→1) and maps its own behaviour off it, so the acts cross-dissolve
+ * rather than cut.
+ *
+ * REDUCED MOTION — read this before touching the `style` props below.
+ * The acts are stacked absolutely on top of each other and are only ever
+ * separated *in time*, by opacity. So they must never all be visible at
+ * once. An earlier version dropped the `style` prop entirely when reduced
+ * motion was set, which left all five acts at their default opacity of 1,
+ * piled on top of each other and unreadable.
+ *
+ * The styles are therefore now applied unconditionally, and the reduced
+ * case is handled purely in CSS (`globals.css`, the `.cinema-*` rules):
+ * the section un-pins, the acts return to normal document flow, and each
+ * one becomes an ordinary stacked block. `!important` there beats these
+ * inline styles, which is exactly the intent.
  */
 export function CosmicHero() {
   const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   });
 
+  /*
+    Smooth the raw scroll position before anything reads it. Wheel input
+    arrives in discrete notches; feeding that straight into the camera makes
+    it lurch. A spring gives the whole sequence weight — it keeps drifting
+    for a moment after you stop, the way a real camera would.
+  */
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 26,
+    restDelta: 0.0005,
+  });
+
   return (
     <section
       ref={ref}
-      className="relative h-[520vh]"
+      className="cinema relative h-[520vh]"
       aria-label="JagKalyan Holistic Mission — introduction"
     >
-      <div className="sticky top-0 grain h-screen overflow-hidden bg-void">
-        {/* Deep field */}
+      <div className="cinema-stage grain sticky top-0 h-screen overflow-hidden bg-void">
         <Starfield />
-        <Nebulae progress={scrollYProgress} reduced={!!reduced} />
+        <Nebulae progress={progress} />
 
-        <ActOneInvocation progress={scrollYProgress} reduced={!!reduced} />
-        <ActTwoThreeFour progress={scrollYProgress} reduced={!!reduced} />
-        <ActFiveCreed progress={scrollYProgress} reduced={!!reduced} />
+        <ActOneInvocation progress={progress} />
+        <ActTwoThreeFour progress={progress} />
+        <ActFiveCreed progress={progress} />
 
-        {/* Bottom vignette blends the pinned canvas into the page that follows. */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-void to-transparent" />
       </div>
     </section>
@@ -63,24 +85,17 @@ export function CosmicHero() {
 }
 
 /* ------------------------------------------------------------------
-   Ambient colour — three slow blooms that shift through the sequence,
-   so the "sky" is never the same colour twice.
+   Ambient colour — slow blooms that shift through the sequence, so the
+   "sky" is never quite the same colour twice.
    ------------------------------------------------------------------ */
-function Nebulae({
-  progress,
-  reduced,
-}: {
-  progress: MotionValue<number>;
-  reduced: boolean;
-}) {
+function Nebulae({ progress }: { progress: MotionValue<number> }) {
   const o1 = useTransform(progress, [0, 0.3, 0.7, 1], [0.55, 0.35, 0.2, 0.45]);
   const o2 = useTransform(progress, [0, 0.45, 1], [0.2, 0.5, 0.7]);
-  const scale = useTransform(progress, [0, 1], [1, 1.5]);
 
   return (
     <div aria-hidden className="absolute inset-0">
       <motion.div
-        style={reduced ? undefined : { opacity: o1, scale }}
+        style={{ opacity: o1 }}
         className="bloom -left-40 top-[-10%] h-[46rem] w-[46rem]"
       >
         <div
@@ -93,7 +108,7 @@ function Nebulae({
       </motion.div>
 
       <motion.div
-        style={reduced ? undefined : { opacity: o2 }}
+        style={{ opacity: o2 }}
         className="bloom -right-52 bottom-[-16%] h-[52rem] w-[52rem]"
       >
         <div
@@ -119,21 +134,15 @@ function Nebulae({
 /* ------------------------------------------------------------------
    ACT I — Invocation
    ------------------------------------------------------------------ */
-function ActOneInvocation({
-  progress,
-  reduced,
-}: {
-  progress: MotionValue<number>;
-  reduced: boolean;
-}) {
+function ActOneInvocation({ progress }: { progress: MotionValue<number> }) {
   const opacity = useTransform(progress, [0, 0.09, 0.15], [1, 1, 0]);
   const y = useTransform(progress, [0, 0.15], [0, -90]);
   const blur = useTransform(progress, [0, 0.15], ["blur(0px)", "blur(12px)"]);
 
   return (
     <motion.div
-      style={reduced ? undefined : { opacity, y, filter: blur }}
-      className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
+      style={{ opacity, y, filter: blur }}
+      className="cinema-act absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
     >
       <motion.p
         initial={{ opacity: 0, y: 16 }}
@@ -168,7 +177,7 @@ function ActOneInvocation({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.2, delay: 1.2 }}
-        className="absolute bottom-12 flex flex-col items-center gap-3"
+        className="cinema-hide-static absolute bottom-12 flex flex-col items-center gap-3"
       >
         <span className="eyebrow text-starlight-faint">Scroll to begin</span>
         <motion.span
@@ -185,66 +194,54 @@ function ActOneInvocation({
 
 /* ------------------------------------------------------------------
    ACTS II–IV — Earth arrives, pillars orbit in, camera withdraws.
-   These share one transform group so the pull-back moves Earth and the
-   pillars together as a single object.
+   One transform group, so the pull-back moves Earth and pillars together.
    ------------------------------------------------------------------ */
-function ActTwoThreeFour({
-  progress,
-  reduced,
-}: {
-  progress: MotionValue<number>;
-  reduced: boolean;
-}) {
-  // Act II: Earth rises and approaches.
-  // Act IV: the same group shrinks as the camera withdraws.
+function ActTwoThreeFour({ progress }: { progress: MotionValue<number> }) {
   const scale = useTransform(
     progress,
-    [0.10, 0.40, 0.62, 0.90],
+    [0.1, 0.4, 0.62, 0.9],
     [0.28, 1, 1, 0.46],
   );
   const y = useTransform(
     progress,
-    [0.10, 0.40, 0.62, 0.90],
+    [0.1, 0.4, 0.62, 0.9],
     ["42vh", "0vh", "0vh", "-6vh"],
   );
   const groupOpacity = useTransform(
     progress,
-    [0.08, 0.20, 0.88, 0.97],
+    [0.08, 0.2, 0.88, 0.97],
     [0, 1, 1, 0.25],
   );
 
-  // Act III: the orbit and its four pillars.
-  const orbitOpacity = useTransform(progress, [0.34, 0.46, 0.86, 0.95], [0, 1, 1, 0]);
-  const orbitScale = useTransform(progress, [0.34, 0.50], [0.72, 1]);
+  const orbitOpacity = useTransform(
+    progress,
+    [0.34, 0.46, 0.86, 0.95],
+    [0, 1, 1, 0],
+  );
+  const orbitScale = useTransform(progress, [0.34, 0.5], [0.72, 1]);
   const orbitSpin = useTransform(progress, [0.34, 1], [-24, 12]);
 
   return (
     <motion.div
-      style={reduced ? undefined : { opacity: groupOpacity }}
-      className="absolute inset-0 flex items-center justify-center"
+      style={{ opacity: groupOpacity }}
+      className="cinema-act absolute inset-0 flex items-center justify-center"
     >
       <motion.div
-        style={reduced ? undefined : { scale, y }}
-        className="relative flex items-center justify-center"
+        style={{ scale, y }}
+        className="cinema-reset-transform relative flex items-center justify-center"
       >
         {/*
-          Two layouts, one sequence.
-
-          Phone: four labels around a circle simply do not fit beside the
-          Earth at 375px without colliding, so the pillars drop into a 2×2
-          grid beneath it. Same content, same reveal, no collisions.
-
-          Tablet and up: the true orbit — Earth at the centre, the four
-          movements holding their compass points, exactly as in the mission
-          diagram.
+          Phone: four labels around a circle cannot clear the Earth at
+          375px, so the pillars drop into a 2×2 grid beneath it.
+          Tablet and up: the true orbit, as in the mission diagram.
         */}
 
         {/* — Phone — */}
         <div className="flex w-[86vw] flex-col items-center md:hidden">
           <Earth className="w-[46vw]" />
           <motion.div
-            style={reduced ? undefined : { opacity: orbitOpacity }}
-            className="mt-9 grid w-full grid-cols-2 gap-x-4 gap-y-7"
+            style={{ opacity: orbitOpacity }}
+            className="cinema-reset-opacity mt-9 grid w-full grid-cols-2 gap-x-4 gap-y-7"
           >
             {PILLARS.map((p, i) => (
               <PillarLabel key={p.id} pillar={p} index={i} />
@@ -254,14 +251,13 @@ function ActTwoThreeFour({
 
         {/* — Tablet and up — */}
         <div className="relative hidden h-[min(82vw,76vh)] w-[min(82vw,76vh)] md:block">
-          {/* Orbit rings */}
           <motion.div
-            style={
-              reduced
-                ? undefined
-                : { opacity: orbitOpacity, scale: orbitScale, rotate: orbitSpin }
-            }
-            className="absolute inset-0"
+            style={{
+              opacity: orbitOpacity,
+              scale: orbitScale,
+              rotate: orbitSpin,
+            }}
+            className="cinema-reset-opacity absolute inset-0"
             aria-hidden
           >
             <div className="absolute inset-[4%] rounded-full border border-hairline" />
@@ -272,16 +268,15 @@ function ActTwoThreeFour({
           </motion.div>
 
           {/* Earth, centred. Sized so its edge clears the pillar text: the
-              pillars orbit at 60% of the half-width and are at most 13rem
-              wide, which leaves the Earth 26% before anything collides. */}
+              pillars orbit at 40% of the width and are at most 13rem wide,
+              which leaves the Earth 26% before anything collides. */}
           <div className="absolute left-1/2 top-1/2 h-[26%] w-[26%] -translate-x-1/2 -translate-y-1/2">
             <Earth className="h-full w-full" />
           </div>
 
-          {/* The four pillars */}
           <motion.div
-            style={reduced ? undefined : { opacity: orbitOpacity, scale: orbitScale }}
-            className="absolute inset-0"
+            style={{ opacity: orbitOpacity, scale: orbitScale }}
+            className="cinema-reset-opacity absolute inset-0"
           >
             {PILLARS.map((p, i) => (
               <PillarNode key={p.id} pillar={p} index={i} />
@@ -290,35 +285,36 @@ function ActTwoThreeFour({
         </div>
       </motion.div>
 
-      {/* Swadharma caption, under the system. */}
-      <SwadharmaCaption progress={progress} reduced={reduced} />
+      <SwadharmaCaption progress={progress} />
     </motion.div>
   );
 }
 
-const ACCENT: Record<Pillar["accent"], { ring: string; dot: string; text: string }> =
-  {
-    gold: {
-      ring: "rgba(228,174,20,0.42)",
-      dot: "var(--color-gold)",
-      text: "text-gold",
-    },
-    verdant: {
-      ring: "rgba(78,163,85,0.42)",
-      dot: "var(--color-verdant)",
-      text: "text-verdant-bright",
-    },
-    azure: {
-      ring: "rgba(96,165,220,0.42)",
-      dot: "#7fb8e6",
-      text: "text-[#9ecbf0]",
-    },
-    violet: {
-      ring: "rgba(160,120,220,0.42)",
-      dot: "#b08ce0",
-      text: "text-[#c4a6ef]",
-    },
-  };
+const ACCENT: Record<
+  Pillar["accent"],
+  { ring: string; dot: string; text: string }
+> = {
+  gold: {
+    ring: "rgba(228,174,20,0.42)",
+    dot: "var(--color-gold)",
+    text: "text-gold",
+  },
+  verdant: {
+    ring: "rgba(78,163,85,0.42)",
+    dot: "var(--color-verdant)",
+    text: "text-verdant-bright",
+  },
+  azure: {
+    ring: "rgba(96,165,220,0.42)",
+    dot: "#7fb8e6",
+    text: "text-[#9ecbf0]",
+  },
+  violet: {
+    ring: "rgba(160,120,220,0.42)",
+    dot: "#b08ce0",
+    text: "text-[#c4a6ef]",
+  },
+};
 
 /** Orbital placement — tablet and up only. */
 function PillarNode({ pillar, index }: { pillar: Pillar; index: number }) {
@@ -397,20 +393,14 @@ function PillarLabel({ pillar, index }: { pillar: Pillar; index: number }) {
   );
 }
 
-function SwadharmaCaption({
-  progress,
-  reduced,
-}: {
-  progress: MotionValue<number>;
-  reduced: boolean;
-}) {
+function SwadharmaCaption({ progress }: { progress: MotionValue<number> }) {
   const opacity = useTransform(progress, [0.48, 0.58, 0.74, 0.82], [0, 1, 1, 0]);
   const y = useTransform(progress, [0.48, 0.58], [22, 0]);
 
   return (
     <motion.div
-      style={reduced ? undefined : { opacity, y }}
-      className="pointer-events-none absolute bottom-[7vh] left-1/2 w-[min(92vw,34rem)] -translate-x-1/2 px-6 text-center"
+      style={{ opacity, y }}
+      className="cinema-caption pointer-events-none absolute bottom-[7vh] left-1/2 w-[min(92vw,34rem)] -translate-x-1/2 px-6 text-center"
     >
       <p className="eyebrow text-gold/80">Find your Swadharma</p>
       <p className="mt-3 text-sm leading-relaxed text-starlight-dim">
@@ -424,20 +414,14 @@ function SwadharmaCaption({
 /* ------------------------------------------------------------------
    ACT V — Creed
    ------------------------------------------------------------------ */
-function ActFiveCreed({
-  progress,
-  reduced,
-}: {
-  progress: MotionValue<number>;
-  reduced: boolean;
-}) {
+function ActFiveCreed({ progress }: { progress: MotionValue<number> }) {
   const opacity = useTransform(progress, [0.86, 0.94, 1], [0, 1, 1]);
   const y = useTransform(progress, [0.86, 0.96], [40, 0]);
 
   return (
     <motion.div
-      style={reduced ? undefined : { opacity, y }}
-      className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
+      style={{ opacity, y }}
+      className="cinema-act absolute inset-0 flex flex-col items-center justify-center px-6 text-center"
     >
       <h2 className="display text-[clamp(2rem,6.5vw,5rem)] leading-[1.05] text-starlight">
         One Humanity
