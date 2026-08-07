@@ -26,6 +26,26 @@ import * as THREE from "three";
 
 const SUN = new THREE.Vector3(-0.88, 0.26, 0.4).normalize();
 
+/*
+  Framing.
+
+  The globe is radius 1, and the atmosphere shell extends past it. The
+  camera has to sit far enough back that the SHELL — not the globe — fits
+  inside the frustum, with headroom to spare. Get this wrong and the sphere
+  is cropped by the edges of its own canvas and renders as a rounded square.
+  (It shipped that way once. Very obvious in hindsight.)
+
+  So the distance is derived from those constants rather than hand-picked,
+  which means the shell can be resized without silently re-introducing the
+  crop.
+*/
+const FOV = 32;
+const ATMOSPHERE_SCALE = 1.16;
+const FRAME_HEADROOM = 1.1;
+const CAMERA_DISTANCE =
+  (ATMOSPHERE_SCALE * FRAME_HEADROOM) /
+  Math.tan(THREE.MathUtils.degToRad(FOV / 2));
+
 const GLOBE_VERT = /* glsl */ `
   varying vec2 vUv;
   varying vec3 vWorldNormal;
@@ -179,8 +199,8 @@ export function EarthGlobe({
     renderer.domElement.style.display = "block";
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-    camera.position.set(0, 0, 3.4);
+    const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 100);
+    camera.position.set(0, 0, CAMERA_DISTANCE);
 
     // Earth's real axial tilt. Small detail, but a perfectly upright globe
     // reads as a diagram rather than a planet.
@@ -277,7 +297,7 @@ export function EarthGlobe({
         const clouds = new THREE.Mesh(geometry, cloudMat);
         clouds.scale.setScalar(1.011);
         const atmosphere = new THREE.Mesh(geometry, atmoMat);
-        atmosphere.scale.setScalar(1.16);
+        atmosphere.scale.setScalar(ATMOSPHERE_SCALE);
 
         system.add(globe, clouds, atmosphere);
 

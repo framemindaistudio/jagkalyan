@@ -238,7 +238,7 @@ function ActTwoThreeFour({ progress }: { progress: MotionValue<number> }) {
 
         {/* — Phone — */}
         <div className="flex w-[86vw] flex-col items-center md:hidden">
-          <Earth className="w-[46vw]" />
+          <Earth className="w-[57vw]" />
           <motion.div
             style={{ opacity: orbitOpacity }}
             className="cinema-reset-opacity mt-9 grid w-full grid-cols-2 gap-x-4 gap-y-7"
@@ -267,10 +267,12 @@ function ActTwoThreeFour({ progress }: { progress: MotionValue<number> }) {
             <div className="absolute inset-[10%] rounded-full border border-dashed border-hairline/60" />
           </motion.div>
 
-          {/* Earth, centred. Sized so its edge clears the pillar text: the
-              pillars orbit at 40% of the width and are at most 13rem wide,
-              which leaves the Earth 26% before anything collides. */}
-          <div className="absolute left-1/2 top-1/2 h-[26%] w-[26%] -translate-x-1/2 -translate-y-1/2">
+          {/* Earth, centred. The 3D globe only fills ~78% of its own box —
+              the rest is frustum headroom so the atmosphere shell isn't
+              cropped — so this is sized larger than the disc you actually
+              see. Visible globe lands around 88px radius, against pillars
+              orbiting at 274px, which keeps the earlier clearance. */}
+          <div className="absolute left-1/2 top-1/2 h-[33%] w-[33%] -translate-x-1/2 -translate-y-1/2">
             <Earth className="h-full w-full" />
           </div>
 

@@ -73,11 +73,18 @@ export function Earth({ className }: { className?: string }) {
 
   return (
     <div className={cn("relative aspect-square", className)}>
-      {/* Placeholder and permanent fallback. Fades out only once the real
-          globe reports its textures decoded. */}
+      {/*
+        Placeholder and permanent fallback. Fades out only once the real
+        globe reports its textures decoded.
+
+        Inset to match the 3D globe's apparent size. The WebGL camera keeps
+        headroom around the sphere so the atmosphere shell isn't cropped, so
+        the rendered disc covers only ~78% of the box. Without the same inset
+        here, the planet would visibly shrink at the moment of cross-fade.
+      */}
       <div
         className={cn(
-          "absolute inset-0 transition-opacity duration-1000 ease-out",
+          "absolute inset-[11%] transition-opacity duration-1000 ease-out",
           ready ? "opacity-0" : "opacity-100",
         )}
       >
