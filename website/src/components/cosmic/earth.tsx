@@ -1,104 +1,99 @@
 "use client";
 
+import dynamic from "next/dynamic";
+import { useCallback, useState, useSyncExternalStore } from "react";
+import { EarthCss } from "./earth-css";
 import { cn } from "@/lib/cn";
 
+/*
+  three.js plus three 2K textures is far too much to put in front of first
+  paint, and the hero has to be on screen immediately. So the CSS Earth
+  renders instantly and the real globe is fetched in the background; when
+  it has actually finished loading its textures it cross-fades in over the
+  top. Nobody sees a hole, and a device that cannot run WebGL — or a
+  network that never delivers the textures — simply keeps the CSS one
+  forever, with no error state to design.
+*/
+const EarthGlobe = dynamic(
+  () => import("./earth-globe").then((m) => m.EarthGlobe),
+  { ssr: false },
+);
+
+const noopSubscribe = () => () => {};
+
 /**
- * The Earth.
+ * Read a browser-only fact without a state-setting effect.
  *
- * Built entirely from gradients and blurred shapes rather than a texture map
- * or a WebGL globe. Three reasons: it ships tonight, it costs nothing on
- * mobile, and a stylised Earth sits better inside a "godly / cosmic" brand
- * than a photographic one would — this is the Earth as a symbol, not a
- * satellite photo.
- *
- * Layer order (back to front) matters and is the whole trick:
- *   1. atmospheric halo   — the planet's light escaping
- *   2. sphere body        — ocean gradient, lit from the upper-left
- *   3. landmass drift     — slow-rotating blurred green forms
- *   4. terminator shadow  — the night side, which gives it roundness
- *   5. rim light          — a thin gold crescent; the single detail that
- *                           makes it read as lit by a sun rather than flat
+ * These values don't exist during SSR, so the server snapshot is always
+ * `false` and the real value arrives on the first client render. Doing this
+ * with useEffect + setState would render once with the wrong answer and
+ * then immediately re-render — which is both a wasted pass and what the
+ * `react-hooks/set-state-in-effect` rule exists to prevent.
  */
-export function Earth({ className }: { className?: string }) {
-  return (
-    <div className={cn("relative aspect-square", className)} aria-hidden>
-      {/* 1. Atmosphere */}
-      <div
-        className="absolute -inset-[18%] rounded-full blur-3xl animate-breathe"
-        style={{
-          background:
-            "radial-gradient(circle at 50% 50%, rgba(78,163,85,0.30) 0%, rgba(56,132,204,0.22) 42%, transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute -inset-[4%] rounded-full blur-xl"
-        style={{
-          background:
-            "radial-gradient(circle at 38% 32%, rgba(150,220,255,0.30), transparent 62%)",
-        }}
-      />
-
-      {/* 2. Sphere */}
-      <div
-        className="absolute inset-0 overflow-hidden rounded-full"
-        style={{
-          background:
-            "radial-gradient(circle at 34% 28%, #2f6ea8 0%, #1b4470 34%, #0d2440 66%, #050f1e 100%)",
-          boxShadow:
-            "inset -22px -22px 60px rgba(0,0,0,0.75), inset 12px 12px 44px rgba(120,190,255,0.16)",
-        }}
-      >
-        {/* 3. Landmasses — one slowly rotating layer of soft green forms.
-               Deliberately not map-accurate; it reads as continents in
-               motion, which is what the scene needs. */}
-        <div className="absolute inset-[-25%] animate-drift">
-          <Landmass className="left-[34%] top-[26%] h-[26%] w-[30%] rotate-[18deg]" />
-          <Landmass className="left-[54%] top-[44%] h-[30%] w-[22%] -rotate-[12deg]" />
-          <Landmass className="left-[26%] top-[54%] h-[22%] w-[26%] rotate-[38deg]" />
-          <Landmass className="left-[62%] top-[22%] h-[16%] w-[18%] -rotate-[26deg]" />
-          <Landmass className="left-[18%] top-[38%] h-[14%] w-[14%]" />
-        </div>
-
-        {/* Cloud veil, drifting the other way for a sense of two systems. */}
-        <div className="absolute inset-[-20%] animate-drift-reverse opacity-[0.22]">
-          <div className="absolute left-[30%] top-[34%] h-[16%] w-[42%] rounded-full bg-white blur-2xl" />
-          <div className="absolute left-[48%] top-[58%] h-[12%] w-[34%] rounded-full bg-white blur-2xl" />
-          <div className="absolute left-[22%] top-[66%] h-[10%] w-[28%] rounded-full bg-white blur-xl" />
-        </div>
-
-        {/* 4. Terminator — the night side. */}
-        <div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle at 30% 24%, transparent 32%, rgba(2,4,10,0.42) 62%, rgba(2,4,10,0.88) 100%)",
-          }}
-        />
-      </div>
-
-      {/* 5. Rim light */}
-      <div
-        className="absolute inset-0 rounded-full"
-        style={{
-          background:
-            "conic-gradient(from 210deg at 50% 50%, transparent 0deg, rgba(228,174,20,0.55) 44deg, rgba(247,207,90,0.75) 66deg, rgba(228,174,20,0.40) 88deg, transparent 132deg)",
-          mask: "radial-gradient(circle, transparent 0%, transparent 93%, #000 95%, #000 100%)",
-          WebkitMask:
-            "radial-gradient(circle, transparent 0%, transparent 93%, #000 95%, #000 100%)",
-        }}
-      />
-    </div>
-  );
+function useBrowserFlag(
+  getSnapshot: () => boolean,
+  subscribe: (onChange: () => void) => () => void = noopSubscribe,
+) {
+  return useSyncExternalStore(subscribe, getSnapshot, () => false);
 }
 
-function Landmass({ className }: { className?: string }) {
+const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeReducedMotion(onChange: () => void) {
+  const media = window.matchMedia(REDUCED_QUERY);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+/*
+  Gate on device capability before pulling ~600KB of texture and a 3D
+  renderer. `deviceMemory` is Chromium-only; when it is missing we fall back
+  to core count, and when that is missing too we assume capable — the globe
+  degrades to the CSS one anyway, so a wrong guess is cheap.
+*/
+function isCapableDevice() {
+  const nav = navigator as Navigator & { deviceMemory?: number };
+  const weak =
+    (nav.deviceMemory !== undefined && nav.deviceMemory < 4) ||
+    (navigator.hardwareConcurrency !== undefined &&
+      navigator.hardwareConcurrency <= 2);
+  return !weak;
+}
+
+export function Earth({ className }: { className?: string }) {
+  const [ready, setReady] = useState(false);
+
+  const reduced = useBrowserFlag(
+    () => window.matchMedia(REDUCED_QUERY).matches,
+    subscribeReducedMotion,
+  );
+  const capable = useBrowserFlag(isCapableDevice);
+
+  const handleReady = useCallback(() => setReady(true), []);
+
   return (
-    <div
-      className={cn("absolute rounded-[46%] blur-[6px]", className)}
-      style={{
-        background:
-          "linear-gradient(140deg, rgba(110,190,116,0.92), rgba(46,120,60,0.86) 55%, rgba(28,80,42,0.78))",
-      }}
-    />
+    <div className={cn("relative aspect-square", className)}>
+      {/* Placeholder and permanent fallback. Fades out only once the real
+          globe reports its textures decoded. */}
+      <div
+        className={cn(
+          "absolute inset-0 transition-opacity duration-1000 ease-out",
+          ready ? "opacity-0" : "opacity-100",
+        )}
+      >
+        <EarthCss className="h-full w-full" />
+      </div>
+
+      {capable && (
+        <div
+          className={cn(
+            "absolute inset-0 transition-opacity duration-1000 ease-out",
+            ready ? "opacity-100" : "opacity-0",
+          )}
+        >
+          <EarthGlobe spin={!reduced} onReady={handleReady} />
+        </div>
+      )}
+    </div>
   );
 }

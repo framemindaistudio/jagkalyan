@@ -71,6 +71,30 @@ the Rudra Valley / Khanyale property plans.
 
 ---
 
+## Earth textures
+
+The globe in the cosmic hero uses **NASA Visible Earth** imagery — **public
+domain, courtesy NASA Earth Observatory**, no licence fee or attribution
+obligation, though the credit line above is kept as good practice.
+
+Sources, downloaded and re-encoded to 2048×1024 WebP in
+`website/public/textures/`:
+
+| Shipped file | Source |
+|---|---|
+| `earth-day.webp` (156KB) | [Blue Marble — land surface, shallow water, topography](https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57752/land_shallow_topo_2048.jpg) |
+| `earth-clouds.webp` (336KB, greyscale) | [Blue Marble — cloud composite](https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57747/cloud_combined_2048.jpg) |
+| `earth-night.webp` (113KB) | [Earth at Night — city lights](https://eoimages.gsfc.nasa.gov/images/imagerecords/55000/55167/earth_lights_lrg.jpg) |
+
+The cloud map is stored greyscale because it is only ever sampled as an alpha
+channel — that alone cut it from 415KB to 336KB.
+
+Higher-resolution sources exist (5400×2700, ~2MB each) if the globe is ever
+rendered much larger than its current ~180px on screen. At the current size
+2048×1024 is already well beyond what the sphere can show.
+
+---
+
 ## Content source of record
 
 All site copy lives in **`website/src/lib/site.ts`** — pillars, the holistic and

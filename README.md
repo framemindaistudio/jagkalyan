@@ -67,9 +67,35 @@ time. Five acts:
 4. **Withdrawal** — the camera pulls back; Earth becomes one point in a wider universe
 5. **Creed** — One Humanity · One Planet · Universal Well-being
 
-The Earth is built from gradients and blurred shapes, not a texture or WebGL —
-it costs nothing on mobile and reads as a symbol rather than a satellite photo.
 The starfield is a single canvas with three parallax depths.
+
+### The Earth
+
+A real lit sphere (three.js), carrying NASA Blue Marble imagery. Three things
+do the realism work, and the texture alone is not one of them:
+
+1. **A day/night terminator.** A custom shader blends the daytime map into the
+   city-lights map across the line where the sun falls off. Cities emerging
+   out of the dusk edge is what stops a textured ball reading as a sticker.
+2. **Clouds on their own shell**, rotating fractionally faster than the
+   surface, so the layers separate as it turns.
+3. **Atmospheric scattering on the limb**, brightest where the sun grazes it,
+   so the planet has an edge of air rather than a hard cutout.
+
+The sun sits well off to the left, not behind the camera — raking light gives
+a crescent, a terminator, and a dark hemisphere full of cities. Axial tilt is
+the real 23.4°.
+
+**It is loaded progressively.** A CSS-gradient Earth
+(`components/cosmic/earth-css.tsx`) paints instantly; three.js and ~600KB of
+texture load in the background and cross-fade in once decoded. No WebGL, a
+weak device, or a failed texture fetch all just keep the CSS one — there is no
+error state to design, and nothing blocks first paint.
+
+**Textures** live in `public/textures/` (605KB total as WebP): NASA Visible
+Earth *Blue Marble* — land/topography, cloud composite, and *Earth at Night*
+city lights. **Public domain, courtesy NASA Earth Observatory.** Regenerate or
+re-tune them with `sharp`; the sources are listed in `resources/README.md`.
 
 Below `md` the orbit becomes a 2×2 grid beneath the Earth: four labels around
 a circle cannot clear it at 375px.
