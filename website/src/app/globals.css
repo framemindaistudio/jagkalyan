@@ -1,0 +1,344 @@
+@import "tailwindcss";
+
+/*
+  JagKalyan Holistic Mission — jagkalyan.com
+
+  Two worlds, one system.
+
+  "STAGE" (default, cosmic)  — deep space near-black. This is where the mission
+  is felt: the universe, the Earth, the Swadharma core, the ecosystem galaxy.
+  Gold is the light of consciousness; verdant green is life/nature. Both glow
+  because on Stage, light is emitted, not reflected.
+
+  "CANVAS" (warm cream)      — the reading world. Inherited deliberately from
+  the sibling JagKalyan Tarak Gurukul site (#0e4a12 forest green, #e4ae14 gold,
+  #fbf6ea cream) so the two properties read as one family. Used for dense
+  content: timelines, tables, article bodies.
+
+  A section opts into Canvas with `.canvas`. Everything else is Stage.
+  This is the "museum, not a spaceship" rule — cosmic where it earns awe,
+  calm and legible where it must be read.
+*/
+
+:root {
+  /* ---- Stage: deep space ---- */
+  --color-void: #03050a;
+  --color-space: #070b14;
+  --color-space-raised: #0c1220;
+  --color-space-veil: #131b2e;
+
+  /* ---- Light on Stage ---- */
+  --color-starlight: #f4f1e8;
+  --color-starlight-dim: #a8b0c2;
+  --color-starlight-faint: #6b7488;
+
+  /* ---- Gold: consciousness, action, the divine ---- */
+  --color-gold: #e4ae14;
+  --color-gold-bright: #f7cf5a;
+  --color-gold-deep: #a97a06;
+  --color-on-gold: #1a1200;
+
+  /* ---- Verdant: nature, life, growth ---- */
+  --color-verdant: #4ea355;
+  --color-verdant-bright: #86d98e;
+  --color-verdant-deep: #0e4a12;
+
+  /* ---- Canvas: the reading world ---- */
+  --color-canvas: #fbf6ea;
+  --color-canvas-raised: #fdfbf4;
+  --color-canvas-ink: #1c2617;
+  --color-canvas-muted: #5c6b57;
+  --color-canvas-border: #e3dcc8;
+
+  /* ---- Structure ---- */
+  --color-hairline: rgba(228, 174, 20, 0.16);
+  --color-hairline-strong: rgba(228, 174, 20, 0.34);
+  --color-border-cool: rgba(168, 176, 194, 0.14);
+
+  /* ---- Shape lock ---- */
+  --radius-pill: 999px;
+  --radius-card: 20px;
+  --radius-image: 24px;
+  --radius-input: 12px;
+
+  /* ---- Cinematic timing ---- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@theme inline {
+  --color-void: var(--color-void);
+  --color-space: var(--color-space);
+  --color-space-raised: var(--color-space-raised);
+  --color-space-veil: var(--color-space-veil);
+
+  --color-starlight: var(--color-starlight);
+  --color-starlight-dim: var(--color-starlight-dim);
+  --color-starlight-faint: var(--color-starlight-faint);
+
+  --color-gold: var(--color-gold);
+  --color-gold-bright: var(--color-gold-bright);
+  --color-gold-deep: var(--color-gold-deep);
+  --color-on-gold: var(--color-on-gold);
+
+  --color-verdant: var(--color-verdant);
+  --color-verdant-bright: var(--color-verdant-bright);
+  --color-verdant-deep: var(--color-verdant-deep);
+
+  --color-canvas: var(--color-canvas);
+  --color-canvas-raised: var(--color-canvas-raised);
+  --color-canvas-ink: var(--color-canvas-ink);
+  --color-canvas-muted: var(--color-canvas-muted);
+  --color-canvas-border: var(--color-canvas-border);
+
+  --color-hairline: var(--color-hairline);
+  --color-hairline-strong: var(--color-hairline-strong);
+  --color-border-cool: var(--color-border-cool);
+
+  --radius-pill: var(--radius-pill);
+  --radius-card: var(--radius-card);
+  --radius-image: var(--radius-image);
+  --radius-input: var(--radius-input);
+
+  /*
+    Display = Instrument Serif. Body = Inter.
+    DM Sans is loaded as an alternate: to try the second combination the client
+    asked about, change --font-sans below to var(--font-dm-sans). One line.
+  */
+  --font-display: var(--font-instrument-serif);
+  --font-sans: var(--font-inter);
+  --font-alt: var(--font-dm-sans);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border-cool);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--color-void);
+    /* Stops the white flash between cosmic sections on overscroll. */
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--color-void);
+    color: var(--color-starlight);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  img,
+  video {
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-on-gold);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Canvas — the reading world. Opt in per section.
+   ------------------------------------------------------------------ */
+.canvas {
+  background: var(--color-canvas);
+  color: var(--color-canvas-ink);
+}
+.canvas ::selection {
+  background: var(--color-verdant-deep);
+  color: var(--color-canvas);
+}
+
+/* ------------------------------------------------------------------
+   Typography — Instrument Serif wants tight tracking at display sizes,
+   otherwise it reads loose and cheap. Locked here so every headline
+   across the site gets the same treatment.
+   ------------------------------------------------------------------ */
+.display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+.eyebrow {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Gold gradient text — reserved for the single most important line
+   on a page. Overuse kills it. */
+.text-aurum {
+  background: linear-gradient(
+    180deg,
+    var(--color-gold-bright) 0%,
+    var(--color-gold) 52%,
+    var(--color-gold-deep) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ------------------------------------------------------------------
+   Cosmic atmosphere
+   ------------------------------------------------------------------ */
+
+/* A soft radial bloom. Sits behind content, never captures pointer. */
+.bloom {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.5;
+}
+
+/* Film grain — the single cheapest trick that stops large dark gradients
+   from banding on cheap panels, and adds a filmic quality. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hairline divider that fades at both ends — a gold thread, not a rule. */
+.thread {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-hairline-strong) 18%,
+    var(--color-hairline-strong) 82%,
+    transparent
+  );
+}
+
+/* Glass panel on Stage. */
+.panel {
+  background: linear-gradient(
+    160deg,
+    rgba(19, 27, 46, 0.72),
+    rgba(7, 11, 20, 0.62)
+  );
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card);
+  backdrop-filter: blur(12px);
+}
+
+.panel-hover {
+  transition:
+    border-color 0.5s var(--ease-out-expo),
+    transform 0.5s var(--ease-out-expo),
+    box-shadow 0.5s var(--ease-out-expo);
+}
+.panel-hover:hover {
+  border-color: var(--color-hairline-strong);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 50px -18px rgba(228, 174, 20, 0.28);
+}
+
+/* ------------------------------------------------------------------
+   Motion
+   ------------------------------------------------------------------ */
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(1.06);
+  }
+}
+
+.animate-drift {
+  animation: drift 200s linear infinite;
+}
+.animate-drift-reverse {
+  animation: drift 260s linear infinite reverse;
+}
+.animate-breathe {
+  animation: breathe 7s var(--ease-in-out-soft) infinite;
+}
+
+/* Custom scrollbar — small detail, big perceived-quality payoff. */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--color-gold-deep),
+    var(--color-verdant-deep)
+  );
+  border-radius: 999px;
+  border: 3px solid var(--color-void);
+}
+
+/* ------------------------------------------------------------------
+   Accessibility: honour reduced motion. The parallax and orbit systems
+   also check this in JS, but these kill the decorative CSS loops.
+   ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-drift,
+  .animate-drift-reverse,
+  .animate-breathe {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
