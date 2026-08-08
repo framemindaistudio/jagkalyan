@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/primitives";
 import { JourneyPath } from "@/components/sections/journey-path";
 import { FounderPortrait } from "@/components/sections/founder-portrait";
+import { FounderProfile } from "@/components/sections/founder-profile";
 import { JOURNEY, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -52,9 +53,12 @@ export default function JourneyPage() {
 
       <JourneyPath />
 
-      <Section variant="canvas">
+      <FounderProfile />
+
+      {/* Back to Stage for the close — the profile above it is Canvas, and
+          two reading-coloured sections in a row lose the rhythm. */}
+      <Section className="text-center">
         <SectionHeading
-          variant="canvas"
           align="center"
           eyebrow="What the journey became"
           title="Positive energy attracts positive results."
@@ -62,17 +66,8 @@ export default function JourneyPage() {
         />
         <Reveal delay={0.15}>
           <div className="mt-12 flex flex-wrap justify-center gap-3">
-            <ButtonLink
-              href="/ecosystem"
-              className="!bg-verdant-deep !text-canvas hover:!bg-verdant-deep/90"
-            >
-              Explore the ecosystem
-            </ButtonLink>
-            <ButtonLink
-              href="/mission"
-              variant="ghost"
-              className="!border-canvas-border !text-canvas-ink hover:!border-verdant-deep hover:!text-verdant-deep"
-            >
+            <ButtonLink href="/ecosystem">Explore the ecosystem</ButtonLink>
+            <ButtonLink href="/mission" variant="ghost">
               The mission today
             </ButtonLink>
           </div>

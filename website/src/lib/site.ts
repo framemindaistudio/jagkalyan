@@ -133,27 +133,211 @@ export interface JourneyStop {
   name: string;
   note: string;
   chapter: "self" | "society" | "nation" | "humanity";
+  /** Title held at this stop. */
+  role?: string;
+  /**
+   * The substance of the stop, expanded in place on the Journey page.
+   * Transcribed from the founder's CV — never invented. Stops with no
+   * detail in the CV simply carry none.
+   */
+  detail?: string[];
 }
 
 export const JOURNEY: JourneyStop[] = [
-  { years: "1967–1974", name: "VVHSS", note: "Foundation · Building Self", chapter: "self" },
-  { years: "1974–76", name: "GASCG", note: "Education, Values & Discipline", chapter: "self" },
-  { years: "1975–81", name: "PDACE", note: "Engineering Knowledge Foundation", chapter: "self" },
-  { years: "1982–84", name: "IIT Bombay", note: "Advanced Learning & Excellence", chapter: "self" },
-  { years: "1984–97", name: "ISRO NNRMS", note: "Research, Innovation & Nation Service", chapter: "nation" },
-  { years: "1997–2000", name: "ESRI India", note: "GIS Solutions & Technology Leadership", chapter: "nation" },
-  { years: "2000–2010", name: "Reliance Group of Companies", note: "Corporate Growth & Excellence", chapter: "nation" },
-  { years: "2003–", name: "JK Institute (JKITM)", note: "Education, Leadership & Mentoring", chapter: "society" },
-  { years: "2008–", name: "JagKalyan Trust", note: "Social Service, Education & Empowerment", chapter: "society" },
-  { years: "2008–", name: "Jankalyan Trust", note: "Community Development & Welfare", chapter: "society" },
-  { years: "2008–", name: "Shree Nandi School", note: "Value Based Education for Children", chapter: "society" },
-  { years: "2016–2019", name: "School of Built Environment", note: "Sustainability Research", chapter: "nation" },
-  { years: "2020", name: "MobilePe Fintech", note: "Financial Inclusion Technology", chapter: "nation" },
-  { years: "2020", name: "MobilePe E-commerce", note: "Digital Commerce Solutions", chapter: "nation" },
-  { years: "2021", name: "Soul Temple", note: "Spiritual Wellness & Inner Growth", chapter: "humanity" },
-  { years: "2022", name: "KC Space Academy", note: "Space & STEM Education Innovation", chapter: "humanity" },
-  { years: "2026", name: "JagKalyan Tarak Gurukul", note: "Holistic University · Humanity Mission", chapter: "humanity" },
+  {
+    years: "1967–1974",
+    name: "VVHSS",
+    note: "Foundation · Building Self",
+    chapter: "self",
+    detail: ["Schooling, and the beginning of a lifelong discipline."],
+  },
+  {
+    years: "1974–76",
+    name: "GASCG",
+    note: "Education, Values & Discipline",
+    chapter: "self",
+    detail: ["Pre-university education, values and discipline."],
+  },
+  {
+    years: "1975–81",
+    name: "PDACE",
+    note: "Engineering Knowledge Foundation",
+    chapter: "self",
+    role: "Bachelor of Engineering, Karnatak University",
+    detail: ["The engineering foundation everything technical afterwards was built on."],
+  },
+  {
+    years: "1982–84",
+    name: "IIT Bombay",
+    note: "Advanced Learning & Excellence",
+    chapter: "self",
+    role: "M.Tech, Remote Sensing",
+    detail: [
+      "Remote sensing and digital image processing — the discipline that would define the next four decades.",
+    ],
+  },
+  {
+    years: "1984–97",
+    name: "ISRO NNRMS",
+    note: "Research, Innovation & Nation Service",
+    chapter: "nation",
+    role: "Geomatics Scientist · National Natural Resources Management System",
+    detail: [
+      "Established remote sensing centres across India — the RRSSCs and SRSACs — bringing digital image processing and geographic information systems into national practice.",
+      "Designed and developed sustainable digital solutions for natural resources management: forest working plans, agriculture, water resources development, urban planning and minerals targeting.",
+      "Agriculture programmes CAPEMAN and LUM, the Integrated Mission for Sustainable Development (IMSD), and environmental impact assessment.",
+    ],
+  },
+  {
+    years: "1997–2000",
+    name: "ESRI India",
+    note: "GIS Solutions & Technology Leadership",
+    chapter: "nation",
+    role: "Business Head, Consulting & Professional Services",
+    detail: [
+      "Established a global GIS consulting practice across eGovernance, utilities, agriculture and telecom.",
+      "Delivered EIA and digital elevation modelling, patents, land records, Election Commission systems and the National Resources Information System.",
+    ],
+  },
+  {
+    years: "2000–2010",
+    name: "Reliance Group of Companies",
+    note: "Corporate Growth & Excellence",
+    chapter: "nation",
+    role: "Chief Architect & Head of GIS · Director · Mentor",
+    detail: [
+      "Designed, developed, deployed and operated enterprise GIS decision-support systems integrated with OSS/BSS — across telecom, power, fintech, logistics, health, infrastructure, retail, oil & gas, land records, insurance, utilities and eGovernance.",
+      "Director and Mentor at Reliance Digital World and Reliance Tech Services: a team of 2,000 and a $40M budget, accountable for strategic vision, financial stability, growth and productivity.",
+      "The 'Mobiles for All' era — technology built for reach rather than margin.",
+    ],
+  },
+  {
+    years: "2003–",
+    name: "JK Institute · JKITM",
+    note: "Education, Leadership & Mentoring",
+    chapter: "society",
+    role: "Founder",
+    detail: [
+      "The first institution built in his own name — education, leadership and mentoring, and the seed of the JagKalyan Mission.",
+    ],
+  },
+  {
+    years: "2008–",
+    name: "JagKalyan Trust",
+    note: "Social Service, Education & Empowerment",
+    chapter: "society",
+    role: "Founder Trustee",
+    detail: [
+      "An NGO for research, education and welfare, registered with 12A and 80G certification.",
+      "Also the founding home of Jagkalyan Manch (JAM).",
+    ],
+  },
+  {
+    years: "2008–",
+    name: "Jankalyan Trust",
+    note: "Community Development & Welfare",
+    chapter: "society",
+    role: "Founder Trustee",
+  },
+  {
+    years: "2008–",
+    name: "Shree Nandi School",
+    note: "Value Based Education for Children",
+    chapter: "society",
+    detail: [
+      "Value-based schooling for children, alongside Nandi Seva Gram, founded 2009.",
+    ],
+  },
+  {
+    years: "2016–2019",
+    name: "School of Built Environment",
+    note: "Sustainability Research",
+    chapter: "nation",
+    role: "Professor of Practice · Dean · Guide",
+    detail: [
+      "Teaching and guiding across IITs, IIMs, NITs, Defence establishments, IARI, NEERI and the Forest Survey of India.",
+      "Remote sensing, digital image processing, GIS, pattern recognition and AI/ML applied to natural resources and the built environment.",
+      "Behavioural science, holistic health and holistic education — the bridge from technology to the mission that followed.",
+    ],
+  },
+  {
+    years: "2020",
+    name: "MobilePe Fintech",
+    note: "Financial Inclusion Technology",
+    chapter: "nation",
+    role: "Co-Founder, Director & CEO",
+    detail: ["Digital payments built for financial inclusion. topay.live"],
+  },
+  {
+    years: "2020",
+    name: "MobilePe E-commerce",
+    note: "Digital Commerce Solutions",
+    chapter: "nation",
+    role: "Co-Founder & Advisor",
+    detail: ["A digital commerce marketplace, and the MobilePe Group as Chief Advisor."],
+  },
+  {
+    years: "2021",
+    name: "Soul Temple",
+    note: "Spiritual Wellness & Inner Growth",
+    chapter: "humanity",
+    role: "Co-Founder & Mentor",
+    detail: [
+      "Spiritual wellness and inner transformation — alongside YogicHealth, and the turn from building organisations to building people.",
+    ],
+  },
+  {
+    years: "2022",
+    name: "Kalpana Chawla Space Academy",
+    note: "Space & STEM Education Innovation",
+    chapter: "humanity",
+    role: "Co-Founder · Governing Board Member, Vidyaniketan Education Trust",
+    detail: [
+      "Space and STEM education for young people, as an NGO and a university. kcsa.org.in",
+    ],
+  },
+  {
+    years: "2026",
+    name: "JagKalyan Tarak Gurukul",
+    note: "Holistic University · Humanity Mission",
+    chapter: "humanity",
+    role: "Co-Founder & Chairman",
+    detail: [
+      "A residential Gurukul campus in Dodamarg, North Goa — holistic education, research and innovation, and the leaders the mission will need.",
+      "Alongside Shree Nandi Foundation, co-founded and chaired from the same year.",
+    ],
+  },
 ];
+
+/* ------------------------------------------------------------------
+   The founder's profile, as it appears on the Journey.
+   ------------------------------------------------------------------ */
+
+export const FOUNDER_PROFILE = {
+  name: "Prof. Jagadish Kalyandurgmath",
+  experience: "40+ years",
+  titles:
+    "Geomatics Scientist · Enterprise GIS Architect · Social Entrepreneur · Nation Building Missions Architect · Mentor & Advisor",
+  summary:
+    "Four decades across space research, enterprise technology and social entrepreneurship — building the systems a nation runs on, then the institutions meant to outlast them.",
+  education: [
+    "B.E., Karnatak University",
+    "M.Tech Remote Sensing, IIT Bombay",
+    "Computer OD & DBMS, IISc",
+    "PhD (Expert GIS)",
+    "PhD (Decision Support Systems)",
+    "PhD (Holistic Education)",
+    "Diploma in Yoga · Yoga TTC",
+    "ICF Certified Coach",
+  ],
+  honours: [
+    "Excellence in Geospatial Solutions — Telecom, Forestry, Agriculture",
+    "Excellence in Community Service, Rotary International",
+    "Jury, Lifetime Achievement Geospatial Awards",
+    "Telecom Forum · IEEE",
+  ],
+  linkedin: "https://www.linkedin.com/in/jagadeeshkm/",
+};
 
 /* ------------------------------------------------------------------
    The ecosystem.
@@ -485,7 +669,8 @@ export const EXPANSION: ExpansionPhase[] = [
 ];
 
 /* ------------------------------------------------------------------
-   FOUNDERS — drawn from the CVs supplied by the client.
+   The founder's current positions, as supplied by him. Surfaced on
+   the Journey; there is no separate Founder page.
    ------------------------------------------------------------------ */
 
 export interface Affiliation {
@@ -494,17 +679,6 @@ export interface Affiliation {
   years: string;
   url?: string;
   email?: string;
-}
-
-export interface Founder {
-  name: string;
-  role: string;
-  summary: string;
-  highlights: string[];
-  education: string;
-  linkedin?: string;
-  photo?: string;
-  affiliations?: Affiliation[];
 }
 
 /** Current positions, as supplied by the founder. */
@@ -561,45 +735,6 @@ export const JAGADISH_AFFILIATIONS: Affiliation[] = [
   },
 ];
 
-export const FOUNDERS: Founder[] = [
-  {
-    name: "Prof. Jagadish Kalyandurgmath",
-    role: "Founder · Geomatics Scientist · Social Entrepreneur",
-    summary:
-      "Forty years across space research, enterprise technology and social entrepreneurship — building the systems a nation runs on, then the institutions that outlast them.",
-    highlights: [
-      "Geomatics Scientist, ISRO NNRMS — established remote sensing centres across India for forestry, agriculture, water, urban planning and minerals",
-      "Business Head, ESRI India — built a global GIS consulting practice across eGovernance, utilities, agriculture and telecom",
-      "Chief Architect, Head of GIS, Director & Mentor, Reliance Group — enterprise GIS decision systems across telecom, power, fintech, logistics, health and infrastructure; a team of 2,000 and a $40M budget",
-      "Professor of Practice, Dean and Guide at IITs, IIMs, NITs, Defence, IARI and NEERI",
-      "Founder Trustee, JagKalyan Trust; co-founder and mentor to JKITM, MobilePe, Kalpana Chawla Space Academy and Soul Temple",
-    ],
-    education:
-      "B.E. Karnatak University · M.Tech Remote Sensing, IIT Bombay · Computer OD and DBMS, IISc · PhD (Expert GIS) · PhD (Decision Support Systems) · PhD (Holistic Education) · Diploma in Yoga · ICF Coach",
-    linkedin: "https://www.linkedin.com/in/jagadeeshkm/",
-    photo: "/founder-jagdish.webp",
-    affiliations: JAGADISH_AFFILIATIONS,
-  },
-  {
-    name: "Prof. Kavita Kalyandurgmath",
-    role: "Co-Founder · Professor & Head, Research & Business Analytics",
-    summary:
-      "Three decades of academic excellence in research, analytics and education management — and the supervisor behind a generation of researchers.",
-    highlights: [
-      "Faculty for over 32 years across MBA, MMS, PGDM, MMM, MHRD and MFM programmes",
-      "Research supervisor to 16 PhD scholars — 13 completed, 3 ongoing",
-      "Patent published: developing a skill matrix for organisations using machine learning",
-      "25+ Management Development Programmes for JP Morgan, Accenture, Tata Group, Asian Paints, L&T, Indian Oil and the Indian Army",
-      "Faculty Development Programmes including one for ICAI attended by 3,000+ chartered accountants",
-      "50+ collaborative research papers across retail, healthcare, hospitality and social media",
-    ],
-    education:
-      "AICTE Approved Faculty · Research supervisor across Pacific, Mewar, IIC University of Technology, Living Stone and Golden State universities",
-    linkedin:
-      "https://www.linkedin.com/in/prof-kavita-kalyandurgmath-92750410",
-  },
-];
-
 /* ------------------------------------------------------------------
    NAVIGATION + ROUTE REGISTRY
    `status: "soon"` renders a Coming Soon page from the shared template.
@@ -621,7 +756,6 @@ export const NAV: NavSection[] = [
       { label: "Global Movement", href: "/mission#global", status: "live" },
       { label: "Nature Charter", href: "/mission#nature", status: "live" },
       { label: "Global Impact & Legacy", href: "/global-impact", status: "live" },
-      { label: "Founders", href: "/about", status: "live" },
     ],
   },
   {
@@ -732,7 +866,6 @@ export const FOOTER_GROUPS = [
       { label: "The Mission", href: "/mission" },
       { label: "The Journey", href: "/journey" },
       { label: "Global Impact & Legacy", href: "/global-impact" },
-      { label: "Founders", href: "/about" },
       { label: "Holistic Framework", href: "/framework" },
       { label: "Sustainability", href: "/sustainability" },
     ],

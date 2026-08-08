@@ -1,7 +1,14 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import { useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "motion/react";
+import { CaretDown } from "@phosphor-icons/react";
 import { JOURNEY, type JourneyStop } from "@/lib/site";
 import { Starfield } from "@/components/cosmic/starfield";
 import { cn } from "@/lib/cn";
@@ -194,6 +201,8 @@ function Waypoint({
   // Alternate sides on desktop so the eye travels rather than scans.
   const onLeft = index % 2 === 0;
   const startYear = stop.years.slice(0, 4);
+  const [open, setOpen] = useState(false);
+  const panelId = `stop-${index}-detail`;
 
   return (
     <li
@@ -299,9 +308,79 @@ function Waypoint({
           {stop.name}
         </h2>
 
-        <p className="relative mt-3 max-w-sm text-sm leading-relaxed text-starlight-dim">
+        {stop.role && (
+          <p
+            className="relative mt-2.5 max-w-sm text-[0.82rem] font-medium leading-snug"
+            style={{ color: chapter.color }}
+          >
+            {stop.role}
+          </p>
+        )}
+
+        <p className="relative mt-2.5 max-w-sm text-sm leading-relaxed text-starlight-dim">
           {stop.note}
         </p>
+
+        {stop.detail?.length ? (
+          <>
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-controls={panelId}
+              className={cn(
+                "group relative mt-5 inline-flex min-h-11 items-center gap-2 rounded-full border border-hairline px-4 text-[0.78rem] text-starlight-dim transition-colors hover:border-gold hover:text-gold",
+                onLeft && "md:self-end",
+              )}
+            >
+              {open ? "Close" : "Read the detail"}
+              <CaretDown
+                size={11}
+                weight="bold"
+                className={cn(
+                  "transition-transform duration-300",
+                  open && "rotate-180",
+                )}
+              />
+            </button>
+
+            {/*
+              Expands in place rather than linking away. The whole point of
+              the Journey is that it is one continuous route — sending
+              someone to a separate page to read a stop would break the
+              thing the page exists to convey.
+            */}
+            <AnimatePresence initial={false}>
+              {open && (
+                <motion.div
+                  id={panelId}
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative w-full overflow-hidden"
+                >
+                  <ul
+                    className={cn(
+                      "mt-5 max-w-md space-y-3.5 border-l pl-5",
+                      onLeft && "md:ml-auto md:border-l-0 md:border-r md:pl-0 md:pr-5",
+                    )}
+                    style={{ borderColor: `${chapter.color}55` }}
+                  >
+                    {stop.detail.map((d) => (
+                      <li
+                        key={d}
+                        className="text-[0.85rem] leading-relaxed text-starlight-dim"
+                      >
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
+        ) : null}
       </motion.div>
     </li>
   );
