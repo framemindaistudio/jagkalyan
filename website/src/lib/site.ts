@@ -347,15 +347,17 @@ export interface Entity {
   name: string;
   year?: string;
   role: string;
+  /** Real mark from the client's brand folder, backgrounds cut to alpha. */
+  logo?: string;
 }
 
 export const ENTITIES: Entity[] = [
   { name: "JK Institute JKITM", year: "2003", role: "Education Excellence" },
-  { name: "JagKalyan Trust", year: "2008", role: "Service & Empowerment · NGO with 12A / 80G" },
+  { name: "JagKalyan Trust", year: "2008", role: "Service & Empowerment · NGO with 12A / 80G", logo: "/logos/jagkalyan-trust.webp" },
   { name: "Jankalyan Trust", year: "2008", role: "Community Development" },
   { name: "Shree Nandi School", year: "2008", role: "Value Based Education" },
-  { name: "JagKalyan Holistic LLP", year: "2025", role: "Research, Wellness & Education Solutions" },
-  { name: "JagKalyan Tarak Gurukul", year: "2026", role: "Holistic University · Humanity Mission" },
+  { name: "JagKalyan Holistic LLP", year: "2025", role: "Research, Wellness & Education Solutions", logo: "/logos/jagkalyan-holistic.webp" },
+  { name: "JagKalyan Tarak Gurukul", year: "2026", role: "Holistic University · Humanity Mission", logo: "/logos/tarak-gurukul.webp" },
 ];
 
 export const ASSOCIATES: Entity[] = [
@@ -363,7 +365,7 @@ export const ASSOCIATES: Entity[] = [
   { name: "MobilePe E-commerce", year: "2020", role: "Digital Commerce Marketplace" },
   { name: "Soul Temple", year: "2021", role: "Spiritual Wellness & Inner Transformation" },
   { name: "KC Space Academy", year: "2022", role: "Space & STEM Education" },
-  { name: "Saiccha Developers", role: "Sustainable Developments · Real Estate" },
+  { name: "Saiccha Developers", role: "Sustainable Developments · Real Estate", logo: "/logos/saiccha-developers.webp" },
 ];
 
 /** The institutions of the mission — rendered as planets in the galaxy. */
@@ -371,17 +373,20 @@ export interface Institution {
   name: string;
   role: string;
   detail: string;
+  logo?: string;
 }
 
 export const INSTITUTIONS: Institution[] = [
   {
     name: "JagKalyan Tarak Gurukul",
+    logo: "/logos/tarak-gurukul.webp",
     role: "Develops Future-Ready Leaders",
     detail:
       "Holistic education, skills university, research & innovation, leadership development, AI/GIS and emerging tech, global collaboration.",
   },
   {
     name: "Shree Nandi Foundation",
+    logo: "/logos/shree-nandi.webp",
     role: "Delivers Inclusive Social Impact",
     detail:
       "Value-based education, health & wellbeing, women empowerment, child & youth development, senior citizen care, community development.",
@@ -406,12 +411,14 @@ export const INSTITUTIONS: Institution[] = [
   },
   {
     name: "JagKalyan Holistic LLP",
+    logo: "/logos/jagkalyan-holistic.webp",
     role: "Translates Research into Practical, Scalable Solutions",
     detail:
       "R&D, technology innovation, ESG & sustainability solutions, AI/GIS & digital solutions, project implementation, global partnerships.",
   },
   {
     name: "JagKalyan Trust",
+    logo: "/logos/jagkalyan-trust.webp",
     role: "Provides Governance and Long-term Community Stewardship",
     detail:
       "Good governance, education & welfare, rural & community development, environmental stewardship, CSR implementation, volunteer network.",

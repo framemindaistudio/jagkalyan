@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PageHero } from "@/components/layout/page-hero";
+import { EntityMark } from "@/components/brand/entity-mark";
 import {
   ButtonLink,
   Reveal,
@@ -40,10 +42,13 @@ export default function EcosystemPage() {
           {ENTITIES.map((e, i) => (
             <Reveal key={e.name} delay={i * 0.05}>
               <article className="panel panel-hover h-full p-8">
-                {e.year && (
-                  <span className="font-mono text-xs text-gold">{e.year}</span>
-                )}
-                <h2 className="display mt-3 text-2xl leading-tight text-starlight">
+                <div className="flex items-start justify-between gap-4">
+                  <EntityMark name={e.name} logo={e.logo} />
+                  {e.year && (
+                    <span className="font-mono text-xs text-gold">{e.year}</span>
+                  )}
+                </div>
+                <h2 className="display mt-5 text-2xl leading-tight text-starlight">
                   {e.name}
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-starlight-faint">
@@ -66,12 +71,15 @@ export default function EcosystemPage() {
           {ASSOCIATES.map((e, i) => (
             <Reveal key={e.name} delay={i * 0.05}>
               <article className="panel panel-hover h-full p-8">
-                {e.year && (
-                  <span className="font-mono text-xs text-verdant-bright">
-                    {e.year}
-                  </span>
-                )}
-                <h2 className="display mt-3 text-2xl leading-tight text-starlight">
+                <div className="flex items-start justify-between gap-4">
+                  <EntityMark name={e.name} logo={e.logo} />
+                  {e.year && (
+                    <span className="font-mono text-xs text-verdant-bright">
+                      {e.year}
+                    </span>
+                  )}
+                </div>
+                <h2 className="display mt-5 text-2xl leading-tight text-starlight">
                   {e.name}
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-starlight-faint">
@@ -95,9 +103,22 @@ export default function EcosystemPage() {
           {INSTITUTIONS.map((inst, i) => (
             <Reveal key={inst.name} delay={i * 0.04}>
               <article className="grid gap-5 rounded-card border border-canvas-border bg-canvas-raised p-8 transition-all duration-500 hover:border-verdant-deep/40 md:grid-cols-[auto_1fr_1.3fr] md:gap-10 md:p-10">
-                <span className="display text-4xl text-verdant-deep/20">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+                {inst.logo ? (
+                  /* On Canvas these need no plate — they were authored for
+                     exactly this kind of light background. */
+                  <Image
+                    src={inst.logo}
+                    alt={`${inst.name} logo`}
+                    width={64}
+                    height={64}
+                    sizes="64px"
+                    className="h-16 w-16 shrink-0 object-contain"
+                  />
+                ) : (
+                  <span className="display text-4xl text-verdant-deep/20">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                )}
                 <div>
                   <h2 className="display text-2xl leading-tight text-canvas-ink">
                     {inst.name}

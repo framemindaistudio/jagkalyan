@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FOOTER_GROUPS, SITE } from "@/lib/site";
 import { Mark } from "@/components/brand/mark";
 
@@ -34,6 +35,18 @@ export function Footer() {
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-starlight-faint">
               {SITE.vision}
             </p>
+
+            {/* The client's own official mark, background cut to alpha.
+                The SVG above it is the responsive UI mark; this is the
+                registered artwork, shown once where it has room. */}
+            <Image
+              src="/logos/jagkalyan-holistic.webp"
+              alt="JagKalyan Holistic official logo"
+              width={132}
+              height={132}
+              sizes="132px"
+              className="mt-9 h-auto w-28 object-contain opacity-90"
+            />
 
             <p
               className="display mt-8 text-xl text-gold/80"
