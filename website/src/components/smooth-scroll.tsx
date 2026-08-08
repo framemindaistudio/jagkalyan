@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
+import { registerLenis } from "@/lib/scroll-lock";
 
 /**
  * Site-wide eased scrolling.
@@ -36,6 +37,9 @@ export function SmoothScroll() {
       anchors: true,
     });
 
+    // Modals need to be able to stop it — body overflow alone can't.
+    registerLenis(lenis);
+
     let frame = 0;
     const raf = (time: number) => {
       lenis.raf(time);
@@ -45,6 +49,7 @@ export function SmoothScroll() {
 
     return () => {
       cancelAnimationFrame(frame);
+      registerLenis(null);
       lenis.destroy();
     };
   }, []);

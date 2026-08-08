@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useSpring } from "motion/react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { JOURNEY, type JourneyStop } from "@/lib/site";
 import { Starfield } from "@/components/cosmic/starfield";
 import { cn } from "@/lib/cn";
@@ -79,6 +79,9 @@ export function JourneyPath() {
     restDelta: 0.0005,
   });
 
+  // The craft rides the head of the fill.
+  const craftPosition = useTransform(travelled, [0, 1], ["0%", "100%"]);
+
   // Sector markers fire the first time each phase appears.
   const seen = new Set<JourneyStop["chapter"]>();
   const stops = JOURNEY.map((stop) => {
@@ -113,6 +116,33 @@ export function JourneyPath() {
             style={{ scaleY: travelled }}
             className="absolute bottom-0 left-[1.75rem] top-0 w-px origin-top -translate-x-1/2 bg-gradient-to-b from-gold via-verdant to-gold md:left-1/2"
           />
+
+          {/*
+            The craft. Rides the head of the filled route, so the page reads
+            as something actually travelling the line rather than a bar
+            quietly filling in. It is the difference between a progress
+            indicator and a journey.
+          */}
+          <motion.div
+            aria-hidden
+            style={{ top: craftPosition }}
+            className="absolute left-[1.75rem] z-10 -translate-x-1/2 -translate-y-1/2 md:left-1/2"
+          >
+            {/* Forward glow — light thrown ahead onto the route to come. */}
+            <span
+              className="absolute left-1/2 top-1/2 block h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full blur-xl"
+              style={{
+                background:
+                  "radial-gradient(closest-side, rgba(228,174,20,0.42), transparent)",
+              }}
+            />
+            <span
+              className="relative block h-3 w-3 rotate-45 rounded-[2px] bg-gold-bright"
+              style={{ boxShadow: "0 0 18px 5px rgba(247,207,90,0.55)" }}
+            />
+            {/* Wake, trailing back up the route already travelled. */}
+            <span className="absolute bottom-full left-1/2 h-20 w-px -translate-x-1/2 bg-gradient-to-t from-gold/70 to-transparent" />
+          </motion.div>
 
           {stops.map(({ stop, isFirst }, i) => (
             <Waypoint
@@ -179,16 +209,28 @@ function Waypoint({
 
       {/* Node — centre track from md, left rail on a phone. */}
       <div className="relative flex h-full items-center justify-center md:col-start-2 md:row-start-2">
+        {/* Arrival. The ring blooms outward as the craft draws level with
+            this waypoint, then settles — so each stop is something you
+            reach, not something that scrolls past. */}
         <motion.span
           aria-hidden
-          initial={{ scale: 0.4, opacity: 0.3 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: false, margin: "-40% 0px -40% 0px" }}
+          initial={{ scale: 0.5, opacity: 0 }}
+          whileInView={{ scale: 2.6, opacity: [0, 0.55, 0] }}
+          viewport={{ once: false, margin: "-42% 0px -42% 0px" }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="absolute block h-5 w-5 rounded-full border"
+          style={{ borderColor: chapter.color }}
+        />
+        <motion.span
+          aria-hidden
+          initial={{ scale: 0.4, opacity: 0.35 }}
+          whileInView={{ scale: 1.35, opacity: 1 }}
+          viewport={{ once: false, margin: "-42% 0px -42% 0px" }}
           transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
           className="relative z-10 block h-3 w-3 rounded-full ring-4 ring-void"
           style={{
             background: chapter.color,
-            boxShadow: `0 0 22px 5px ${chapter.color}66`,
+            boxShadow: `0 0 26px 7px ${chapter.color}80`,
           }}
         />
       </div>
@@ -208,12 +250,18 @@ function Waypoint({
         )}
       >
         {/* The era, set as scenery behind the stop. */}
+        {/*
+          The era, set as scenery. Gold rather than white and roughly three
+          times the previous opacity — at 0.045 it was invisible against the
+          void, which defeated the point of putting the year there at all.
+        */}
         <span
           aria-hidden
           className={cn(
-            "pointer-events-none absolute -top-2 select-none font-[family-name:var(--font-display)] text-[7rem] leading-none text-starlight opacity-[0.045] md:text-[11rem]",
+            "pointer-events-none absolute -top-2 select-none font-[family-name:var(--font-display)] text-[7rem] leading-none text-gold opacity-[0.13] md:text-[11rem]",
             onLeft ? "md:right-0" : "md:left-0",
           )}
+          style={{ textShadow: "0 0 60px rgba(228,174,20,0.35)" }}
         >
           {startYear}
         </span>
@@ -231,7 +279,12 @@ function Waypoint({
           </span>
         </div>
 
-        <p className="relative mt-4 font-mono text-sm tracking-wide text-gold">
+        {/* The year, lifted to a real headline weight — it is the thing
+            being navigated by, not a caption. */}
+        <p
+          className="relative mt-4 font-mono text-lg font-medium tracking-wide text-gold-bright md:text-xl"
+          style={{ textShadow: "0 0 22px rgba(228,174,20,0.45)" }}
+        >
           {stop.years}
         </p>
 
