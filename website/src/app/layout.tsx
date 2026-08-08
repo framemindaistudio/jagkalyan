@@ -47,6 +47,12 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#03050a",
+  // Let the page paint under the notch and home indicator; globals.css
+  // pads the safe areas back in where content would otherwise be clipped.
+  viewportFit: "cover",
+  // Allow pinch-zoom — disabling it is an accessibility failure, and the
+  // layout is responsive enough not to need it.
+  maximumScale: 5,
 };
 
 export default function RootLayout({

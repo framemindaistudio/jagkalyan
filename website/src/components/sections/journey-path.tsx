@@ -242,7 +242,14 @@ function Waypoint({
         viewport={{ once: true, margin: "-12%" }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
-          "relative min-h-[38vh] py-10 md:min-h-[46vh] md:py-16",
+          /*
+            Phone waypoints are content-height with generous padding rather
+            than a viewport fraction. Seventeen stops at 38vh each made the
+            page four screens longer than it needed to be, and most of that
+            was empty space between short entries — it read as trudging, not
+            travelling.
+          */
+          "relative py-9 sm:min-h-[38vh] md:min-h-[46vh] md:py-16",
           "flex flex-col justify-center",
           onLeft
             ? "md:col-start-1 md:row-start-2 md:items-end md:text-right"
@@ -258,7 +265,7 @@ function Waypoint({
         <span
           aria-hidden
           className={cn(
-            "pointer-events-none absolute -top-2 select-none font-[family-name:var(--font-display)] text-[7rem] leading-none text-gold opacity-[0.13] md:text-[11rem]",
+            "pointer-events-none absolute -top-1 select-none font-[family-name:var(--font-display)] text-[4.5rem] leading-none text-gold opacity-[0.14] sm:text-[7rem] md:text-[11rem]",
             onLeft ? "md:right-0" : "md:left-0",
           )}
           style={{ textShadow: "0 0 60px rgba(228,174,20,0.35)" }}

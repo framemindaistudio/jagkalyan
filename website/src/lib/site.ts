@@ -254,21 +254,99 @@ export const ACADEMY = [
    Wisdom Park — 200 acres.
    ------------------------------------------------------------------ */
 
-export const WISDOM_PARK = {
-  total: 200,
+/* ------------------------------------------------------------------
+   JAGKALYAN WISDOM CITY — 500 acres.
+
+   Supersedes the earlier 200-acre "Wisdom Park" brief entirely; the
+   client's revised master plan renames it a City and rebuilds the zoning.
+
+   NOTE ON THE ACREAGE: the client's legend states a 500-acre total, but
+   the individual zones below — transcribed exactly as supplied — sum to
+   600. `statedTotal` is what the client publishes; `zoneSum` is computed
+   from the parts so the two can never silently drift. Flagged to the
+   client rather than quietly rebalanced, because which number is wrong
+   is their call, not ours.
+   ------------------------------------------------------------------ */
+
+export const WISDOM_CITY = {
+  name: "JagKalyan Wisdom City",
+  statedTotal: 500,
+  creed: "Learn · Innovate · Serve · Sustain",
+  promise:
+    "A self-reliant, profitable, sustainable and harmonious township for a better world.",
+  closing: "Where wisdom creates wealth, wellness and welfare for all.",
+  investmentCrore: 1350,
+  investmentNote: "Excluding financing cost",
+  phases: "3 to 4 phases",
   zones: [
-    { name: "JagKalyan Skills University", acres: 40, note: "Education, research and future leaders" },
-    { name: "JagKalyan Seva Udyan", acres: 30, note: "Service, care and community wellbeing" },
-    { name: "JagKalyan Udyog Udyan", acres: 30, note: "Industry, innovation and enterprise" },
-    { name: "JagKalyan Data Centres", acres: 25, note: "Digital infrastructure and sovereignty" },
-    { name: "Bunglows", acres: 25, note: "Premium residential living" },
-    { name: "Apartments", acres: 20, note: "Community residential living" },
-    { name: "Amenities & Recreation Zone", acres: 20, note: "Sport, leisure and gathering" },
-    { name: "Parking & Transport Hub", acres: 15, note: "Mobility and access" },
-    { name: "JagKalyan Mandapam", acres: 10, note: "Culture, ceremony and global collaboration" },
-    { name: "Serviced Apartments", acres: 10, note: "Hospitality and visiting fellows" },
+    { name: "Sports Stadium", acres: 100, note: "Sport at national scale" },
+    { name: "Organic Farming & Food Park", acres: 100, note: "Fresh food and revenue" },
+    { name: "Eco Living / Family Community", acres: 50, note: "Sustainable family homes" },
+    { name: "Living Community / Senior Living", acres: 50, note: "Dignified care and community" },
+    { name: "Diverse Plantations", acres: 50, note: "Fresh air, biodiversity and income" },
+    { name: "Skills University", acres: 30, note: "Education, research and future leaders" },
+    { name: "Data Centres Park & AI Hub", acres: 30, note: "Digital infrastructure and sovereignty" },
+    { name: "Udyog Park", acres: 30, note: "Industry, enterprise and employment" },
+    { name: "Roads, Utilities & Mobility", acres: 30, note: "The city's circulation" },
+    { name: "Seva Park", acres: 25, note: "Service to humanity" },
+    { name: "Sports Complex", acres: 25, note: "Everyday sport and recreation" },
+    { name: "Gurukul", acres: 20, note: "Holistic residential education" },
+    { name: "Arogyashala Wellness Centre", acres: 20, note: "Healing and integrative health" },
+    { name: "Water Conservation & Biodiversity", acres: 20, note: "Every drop counts" },
+    { name: "Ikigai Centre", acres: 20, note: "Innovation, research and purpose discovery" },
   ],
+  get zoneSum() {
+    return this.zones.reduce((n, z) => n + z.acres, 0);
+  },
 };
+
+/** Headline outcomes the city is designed to produce. */
+export const CITY_IMPACT = [
+  { value: "50,000+", label: "Direct & indirect jobs", note: "Education, industry, technology, agriculture, wellness and services." },
+  { value: "₹800+ cr", label: "Annual economic impact", note: "Projected annual revenue across sustainable business verticals at maturity." },
+  { value: "25,000+", label: "Students & learners", note: "Students, professionals and lifelong learners." },
+  { value: "1,00,000+", label: "People served annually", note: "Through Arogyashala, Seva Park, wellness programmes and community services." },
+  { value: "150%+", label: "Renewable energy generated", note: "More clean energy produced than the township consumes — solar, wind, biomass." },
+  { value: "100%", label: "Water positive", note: "Rainwater harvesting, recycling and conservation — more water recharged than used." },
+  { value: "2,50,000+", label: "Trees & plantations", note: "Diverse trees for clean air, biodiversity and revenue." },
+  { value: "50,000+", label: "Tonnes CO₂ sequestered / year", note: "Through plantations, soil and sustainable practice." },
+  { value: "500+", label: "Tonnes organic food / year", note: "Chemical-free food for residents, markets and global wellness." },
+  { value: "10,00,000+", label: "Lives reached", note: "Through education, seva, health, skills and empowerment." },
+];
+
+/** The ten areas the city is designed to change. */
+export const IMPACT_AREAS = [
+  { title: "Social Impact", body: "Inclusive community, quality education, healthcare, seva and equal opportunity." },
+  { title: "Economic Impact", body: "Jobs, entrepreneurship, innovation, local economy and sustainable revenue." },
+  { title: "Environment Impact", body: "Renewable energy, water conservation, afforestation, organic farming and biodiversity." },
+  { title: "Happiness & Satisfaction", body: "Wellness, sport, culture, spiritual growth and meaningful living through Ikigai." },
+  { title: "Nation Building", body: "Skills, technology, agriculture, self-reliance and contribution to national development." },
+  { title: "Humanity Building", body: "Knowledge sharing, seva, research and solutions for global challenges." },
+  { title: "Global Unity", body: "Bringing together people, cultures and nations for peace and shared prosperity." },
+  { title: "Sustainability", body: "Triple bottom line — people, planet and prosperity for a long-term sustainable future." },
+  { title: "Harmony", body: "Harmony of self, family, society, nature, technology and spirituality." },
+  { title: "Self Reliance", body: "Food, energy, water, education, healthcare, employment and community — a self-sufficient ecosystem." },
+];
+
+export const FUNDING_SOURCES = [
+  "Promoter / Founder capital",
+  "Strategic investors / JV",
+  "Bank loans & financial institutions",
+  "Project finance",
+  "Customer / resident pre-sales",
+  "CSR & philanthropy",
+  "Government schemes & grants",
+  "Green & impact funds",
+];
+
+export const CITY_PRINCIPLES = [
+  "Profitable & self-reliant",
+  "Sustainable & green",
+  "Wellness centric",
+  "Technology driven",
+  "Inclusive & compassionate",
+  "Global & future ready",
+];
 
 /* ------------------------------------------------------------------
    Nature charter.
@@ -410,6 +488,14 @@ export const EXPANSION: ExpansionPhase[] = [
    FOUNDERS — drawn from the CVs supplied by the client.
    ------------------------------------------------------------------ */
 
+export interface Affiliation {
+  org: string;
+  role: string;
+  years: string;
+  url?: string;
+  email?: string;
+}
+
 export interface Founder {
   name: string;
   role: string;
@@ -418,7 +504,62 @@ export interface Founder {
   education: string;
   linkedin?: string;
   photo?: string;
+  affiliations?: Affiliation[];
 }
+
+/** Current positions, as supplied by the founder. */
+export const JAGADISH_AFFILIATIONS: Affiliation[] = [
+  {
+    org: "JagKalyan Mission · JKITM Pvt Ltd",
+    role: "Founder",
+    years: "2003 – present",
+  },
+  {
+    org: "KMATH Services",
+    role: "Co-Founder, Partner",
+    years: "2003 – present",
+  },
+  {
+    org: "Nandi Seva Gram",
+    role: "Founder",
+    years: "2009 – present",
+  },
+  {
+    org: "MobilePe Fintech Pvt Ltd",
+    role: "Co-Founder, Director & CEO",
+    years: "2020 – present",
+    url: "https://www.mobilepefintech.com",
+    email: "jagdish.math@mobilepefintech.com",
+  },
+  {
+    org: "MobilePe E-commerce Pvt Ltd",
+    role: "Co-Founder & Advisor",
+    years: "2020 – present",
+    url: "https://www.mobilpe.co.in",
+  },
+  {
+    org: "MobilePe Group",
+    role: "Co-Founder, Chief Advisor",
+    years: "2020 – present",
+  },
+  {
+    org: "Vidyaniketan Education Trust · Kalpana Chawla Space Academy",
+    role: "Governing Board Member",
+    years: "2023 – present",
+    url: "https://www.kcsa.org.in",
+    email: "jagdishkm@kcsa.org.in",
+  },
+  {
+    org: "Shree Nandi Foundation",
+    role: "Co-Founder & Chairman",
+    years: "2026 – present",
+  },
+  {
+    org: "JagKalyan Tarak Gurukul",
+    role: "Co-Founder & Chairman",
+    years: "2026 – present",
+  },
+];
 
 export const FOUNDERS: Founder[] = [
   {
@@ -437,6 +578,7 @@ export const FOUNDERS: Founder[] = [
       "B.E. Karnatak University · M.Tech Remote Sensing, IIT Bombay · Computer OD and DBMS, IISc · PhD (Expert GIS) · PhD (Decision Support Systems) · PhD (Holistic Education) · Diploma in Yoga · ICF Coach",
     linkedin: "https://www.linkedin.com/in/jagadeeshkm/",
     photo: "/founder-jagdish.webp",
+    affiliations: JAGADISH_AFFILIATIONS,
   },
   {
     name: "Prof. Kavita Kalyandurgmath",
@@ -499,7 +641,7 @@ export const NAV: NavSection[] = [
       { label: "JagKalyan Entities", href: "/ecosystem#entities", status: "live" },
       { label: "JagKalyan Associates", href: "/ecosystem#associates", status: "live" },
       { label: "The Institutions", href: "/ecosystem#institutions", status: "live" },
-      { label: "JagKalyan Wisdom Park", href: "/wisdom-park", status: "live" },
+      { label: "JagKalyan Wisdom City", href: "/wisdom-park", status: "live" },
     ],
   },
   {
@@ -510,7 +652,7 @@ export const NAV: NavSection[] = [
     blurb: "Nine schools of holistic learning.",
   },
   {
-    label: "Wisdom Park",
+    label: "Wisdom City",
     href: "/wisdom-park",
     status: "live",
     primary: true,
@@ -599,7 +741,7 @@ export const FOOTER_GROUPS = [
     title: "Ecosystem",
     links: [
       { label: "Ecosystem", href: "/ecosystem" },
-      { label: "Wisdom Park", href: "/wisdom-park" },
+      { label: "Wisdom City", href: "/wisdom-park" },
       { label: "Projects", href: "/projects" },
       { label: "Innovation", href: "/innovation" },
       { label: "Startup Hub", href: "/startup-hub" },

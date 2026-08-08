@@ -13,7 +13,7 @@ import {
   JOURNEY,
   PILLARS,
   SITE,
-  WISDOM_PARK,
+  WISDOM_CITY,
 } from "@/lib/site";
 import {
   ButtonLink,
@@ -359,13 +359,13 @@ export function WisdomParkSection() {
   return (
     <Section id="wisdom-park">
       <SectionHeading
-        eyebrow="JagKalyan Wisdom Park"
-        title="Two hundred acres of the mission, made physical."
-        lead="Innovation, learning, service and sustainable living on one campus — a university, a service garden, an industry park, data centres, a mandapam, and homes for the people who build it all."
+        eyebrow="JagKalyan Wisdom City"
+        title="Five hundred acres of the mission, made physical."
+        lead="Learn · Innovate · Serve · Sustain. A skills university, a gurukul, a wellness centre, data centres and an AI hub, industry, sport, organic farmland and homes — a self-reliant township for a better world."
       />
 
       <div className="mt-16 space-y-3">
-        {WISDOM_PARK.zones.map((zone, i) => (
+        {WISDOM_CITY.zones.slice(0, 8).map((zone, i) => (
           <Reveal key={zone.name} delay={i * 0.04}>
             <div className="group grid grid-cols-[1fr_auto] items-center gap-4 border-b border-hairline/50 py-4 md:grid-cols-[16rem_1fr_auto]">
               <h3 className="text-sm text-starlight transition-colors group-hover:text-gold md:text-base">
@@ -377,7 +377,7 @@ export function WisdomParkSection() {
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{
-                      width: `${(zone.acres / WISDOM_PARK.total) * 100 * 4}%`,
+                      width: `${(zone.acres / 100) * 100}%`,
                     }}
                     viewport={{ once: true }}
                     transition={{
@@ -405,7 +405,7 @@ export function WisdomParkSection() {
       <Reveal>
         <div className="mt-12 flex flex-wrap items-center justify-between gap-6">
           <p className="display text-3xl text-starlight">
-            {WISDOM_PARK.total}
+            {WISDOM_CITY.statedTotal}
             <span className="ml-2 text-lg text-starlight-faint">
               acres in total
             </span>

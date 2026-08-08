@@ -1,46 +1,51 @@
 "use client";
 
 import { motion } from "motion/react";
+import { WISDOM_CITY } from "@/lib/site";
 import { cn } from "@/lib/cn";
 
 /**
- * JagKalyan Wisdom Park — indicative master plan, rebuilt as layout rather
+ * JagKalyan Wisdom City — indicative master plan, rebuilt as layout rather
  * than an image.
  *
  * The client supplied a rendered aerial view. Reproducing that as a picture
- * would have been flat, unreadable on a phone, and impossible to update.
- * Drawn as a CSS grid instead, it stays crisp, reads at every size, is
- * navigable by keyboard and screen reader, and each zone becomes a real
- * element we can link to a project page later.
+ * would be flat, unreadable on a phone, and impossible to update. Drawn as
+ * a grid it stays crisp, reads at every size, is navigable by keyboard and
+ * screen reader, and each zone becomes a real element we can later link to
+ * a project page.
  *
- * Zone positions mirror the supplied plan: the Mandapam at the heart, the
- * university and data centres north, service and industry flanking, living
- * quarters east and south, transport at the entrance.
+ * Zone positions echo the supplied plan: the Gurukul and Arogyashala at the
+ * heart, university and data centres north, industry west, service and
+ * living east, sport south-east, farmland and plantations south-west, and
+ * the entrance road along the bottom.
+ *
+ * On phones the grid collapses to a single readable column — a fifteen-zone
+ * plan at 375px is a diagram nobody can use.
  */
 
-interface Zone {
-  area: string;
-  name: string;
-  acres: number;
-  tone: "gold" | "verdant" | "azure" | "slate" | "violet";
-}
+type Tone = "gold" | "verdant" | "azure" | "violet" | "slate" | "earth";
 
-const ZONES: Zone[] = [
-  { area: "uni", name: "Skills University", acres: 40, tone: "azure" },
-  { area: "data", name: "Data Centres", acres: 25, tone: "slate" },
-  { area: "seva", name: "Seva Udyan", acres: 30, tone: "verdant" },
-  { area: "mand", name: "Mandapam", acres: 10, tone: "gold" },
-  { area: "udyo", name: "Udyog Udyan", acres: 30, tone: "violet" },
-  { area: "apar", name: "Apartments", acres: 20, tone: "slate" },
-  { area: "amen", name: "Amenities & Recreation", acres: 20, tone: "verdant" },
-  { area: "bung", name: "Bunglows", acres: 25, tone: "slate" },
-  { area: "park", name: "Parking & Transport Hub", acres: 15, tone: "slate" },
-  { area: "serv", name: "Serviced Apartments", acres: 10, tone: "slate" },
-];
+const AREA: Record<string, { area: string; tone: Tone }> = {
+  "Skills University": { area: "uni", tone: "violet" },
+  "Data Centres Park & AI Hub": { area: "data", tone: "azure" },
+  "Seva Park": { area: "seva", tone: "verdant" },
+  "Udyog Park": { area: "udyog", tone: "earth" },
+  Gurukul: { area: "guru", tone: "gold" },
+  "Arogyashala Wellness Centre": { area: "arogya", tone: "verdant" },
+  "Ikigai Centre": { area: "ikigai", tone: "violet" },
+  "Sports Complex": { area: "complex", tone: "azure" },
+  "Sports Stadium": { area: "stadium", tone: "slate" },
+  "Eco Living / Family Community": { area: "eco", tone: "verdant" },
+  "Living Community / Senior Living": { area: "living", tone: "slate" },
+  "Organic Farming & Food Park": { area: "farm", tone: "verdant" },
+  "Diverse Plantations": { area: "plant", tone: "verdant" },
+  "Water Conservation & Biodiversity": { area: "water", tone: "azure" },
+  "Roads, Utilities & Mobility": { area: "roads", tone: "slate" },
+};
 
-const TONE: Record<Zone["tone"], { bg: string; border: string; text: string }> = {
+const TONE: Record<Tone, { bg: string; border: string; text: string }> = {
   gold: {
-    bg: "linear-gradient(150deg, rgba(228,174,20,0.26), rgba(228,174,20,0.09))",
+    bg: "linear-gradient(150deg, rgba(228,174,20,0.26), rgba(228,174,20,0.08))",
     border: "rgba(228,174,20,0.45)",
     text: "text-gold",
   },
@@ -59,6 +64,11 @@ const TONE: Record<Zone["tone"], { bg: string; border: string; text: string }> =
     border: "rgba(176,140,224,0.36)",
     text: "text-[#c4a6ef]",
   },
+  earth: {
+    bg: "linear-gradient(150deg, rgba(190,140,80,0.20), rgba(90,60,30,0.10))",
+    border: "rgba(200,150,90,0.32)",
+    text: "text-[#e0b880]",
+  },
   slate: {
     bg: "linear-gradient(150deg, rgba(168,176,194,0.13), rgba(19,27,46,0.30))",
     border: "rgba(168,176,194,0.20)",
@@ -67,53 +77,56 @@ const TONE: Record<Zone["tone"], { bg: string; border: string; text: string }> =
 };
 
 const AREAS = `
-  "uni  uni  data data seva seva"
-  "uni  uni  mand mand seva seva"
-  "udyo udyo mand mand apar apar"
-  "udyo udyo amen amen bung bung"
-  "park park park serv serv serv"
+  "uni    uni    data   data   seva   seva"
+  "udyog  udyog  guru   guru   eco    eco"
+  "udyog  udyog  arogya ikigai living living"
+  "farm   farm   water  water  complex complex"
+  "plant  plant  roads  roads  stadium stadium"
 `;
 
 export function MasterPlan() {
   return (
     <figure>
+      {/* Plan view — tablet and up. Fifteen zones cannot be read at 375px. */}
       <div
-        className="relative grid aspect-[4/3] w-full gap-1.5 rounded-card border border-hairline bg-space/60 p-1.5 md:aspect-[16/10] md:gap-2 md:p-2"
+        className="relative hidden aspect-[16/11] w-full gap-2 rounded-card border border-hairline bg-space/60 p-2 sm:grid"
         style={{
           gridTemplateAreas: AREAS,
           gridTemplateColumns: "repeat(6, 1fr)",
           gridTemplateRows: "repeat(5, 1fr)",
         }}
       >
-        {ZONES.map((zone, i) => {
-          const tone = TONE[zone.tone];
+        {WISDOM_CITY.zones.map((zone, i) => {
+          const meta = AREA[zone.name];
+          if (!meta) return null;
+          const tone = TONE[meta.tone];
           return (
             <motion.div
-              key={zone.area}
+              key={zone.name}
               initial={{ opacity: 0, scale: 0.94 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{
                 duration: 0.6,
-                delay: i * 0.06,
+                delay: i * 0.04,
                 ease: [0.16, 1, 0.3, 1],
               }}
               style={{
-                gridArea: zone.area,
+                gridArea: meta.area,
                 background: tone.bg,
                 borderColor: tone.border,
               }}
-              className="group flex flex-col justify-between overflow-hidden rounded-lg border p-2.5 transition-transform duration-500 hover:scale-[1.02] md:rounded-xl md:p-4"
+              className="flex flex-col justify-between overflow-hidden rounded-xl border p-3 transition-transform duration-500 hover:scale-[1.02] lg:p-4"
             >
               <h3
                 className={cn(
-                  "text-[clamp(0.58rem,1.35vw,0.95rem)] font-medium leading-tight",
+                  "text-[clamp(0.6rem,1.1vw,0.9rem)] font-medium leading-tight",
                   tone.text,
                 )}
               >
                 {zone.name}
               </h3>
-              <p className="font-mono text-[clamp(0.55rem,1.15vw,0.8rem)] text-starlight-faint">
+              <p className="font-mono text-[clamp(0.55rem,0.95vw,0.78rem)] text-starlight-faint">
                 {zone.acres} ac
               </p>
             </motion.div>
@@ -121,9 +134,35 @@ export function MasterPlan() {
         })}
       </div>
 
-      <figcaption className="mt-5 text-center text-xs text-starlight-faint">
-        Indicative zoning of JagKalyan Wisdom Park — 200 acres. Not to scale;
-        layouts and phasing subject to final planning and approvals.
+      {/* Phone — the same zones as a legible ranked list. */}
+      <ul className="space-y-2 sm:hidden">
+        {WISDOM_CITY.zones.map((zone, i) => {
+          const meta = AREA[zone.name];
+          const tone = TONE[meta?.tone ?? "slate"];
+          return (
+            <motion.li
+              key={zone.name}
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: i * 0.03 }}
+              style={{ background: tone.bg, borderColor: tone.border }}
+              className="flex items-center justify-between gap-4 rounded-xl border px-4 py-3.5"
+            >
+              <span className={cn("text-sm leading-snug", tone.text)}>
+                {zone.name}
+              </span>
+              <span className="shrink-0 font-mono text-xs text-starlight-faint">
+                {zone.acres} ac
+              </span>
+            </motion.li>
+          );
+        })}
+      </ul>
+
+      <figcaption className="mt-5 text-center text-xs leading-relaxed text-starlight-faint">
+        Indicative zoning of {WISDOM_CITY.name}. Not to scale; layouts,
+        phasing and areas subject to final planning and approvals.
       </figcaption>
     </figure>
   );

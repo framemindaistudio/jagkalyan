@@ -104,6 +104,46 @@ export default function AboutPage() {
                       </p>
                     </div>
 
+                    {f.affiliations && (
+                      <div className="mt-8 border-t border-hairline/50 pt-6">
+                        <p className="eyebrow text-starlight-faint">
+                          Current positions
+                        </p>
+                        <ul className="mt-4 space-y-3.5">
+                          {f.affiliations.map((a) => (
+                            <li
+                              key={a.org + a.role}
+                              className="flex flex-col gap-1 border-l border-hairline/60 pl-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+                            >
+                              <span>
+                                <span className="text-sm text-starlight">
+                                  {a.role}
+                                </span>
+                                <span className="text-sm text-starlight-faint">
+                                  {" · "}
+                                  {a.url ? (
+                                    <a
+                                      href={a.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="transition-colors hover:text-gold"
+                                    >
+                                      {a.org}
+                                    </a>
+                                  ) : (
+                                    a.org
+                                  )}
+                                </span>
+                              </span>
+                              <span className="shrink-0 font-mono text-[0.7rem] text-gold/70">
+                                {a.years}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
                     {f.linkedin && (
                       <a
                         href={f.linkedin}

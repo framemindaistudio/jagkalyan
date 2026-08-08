@@ -7,146 +7,202 @@ import {
   SectionHeading,
   SoonBadge,
 } from "@/components/ui/primitives";
-import { WISDOM_PARK } from "@/lib/site";
 import { MasterPlan } from "@/components/sections/master-plan";
+import {
+  CITY_IMPACT,
+  CITY_PRINCIPLES,
+  FUNDING_SOURCES,
+  IMPACT_AREAS,
+  WISDOM_CITY,
+} from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "JagKalyan Wisdom Park",
+  title: "JagKalyan Wisdom City",
   description:
-    "200 acres of innovation, learning, service and sustainable living — the JagKalyan Holistic Mission made physical.",
+    "500 acres of learning, innovation, service and sustainable living — a self-reliant, profitable and harmonious township for a better world.",
 };
 
-const PRINCIPLES = [
-  { title: "Green & Sustainable", body: "A campus that gives back more than it takes." },
-  { title: "Smart Infrastructure", body: "Connectivity, mobility and digital backbone." },
-  { title: "Education & Research", body: "Learning and innovation at the centre." },
-  { title: "Industry & Enterprise", body: "Data, industry and entrepreneurship." },
-  { title: "Service & Wellness", body: "Care and community as built form." },
-  { title: "Premium Living", body: "Homes and hospitality for those who build." },
-];
-
-export default function WisdomParkPage() {
+export default function WisdomCityPage() {
   return (
     <>
       <PageHero
-        eyebrow="JagKalyan Wisdom Park"
+        eyebrow={WISDOM_CITY.creed}
         title={
           <>
-            Two hundred acres
+            JagKalyan
             <br />
-            of <span className="text-aurum">innovation, learning,</span>
-            <br />
-            service and living.
+            <span className="text-aurum">Wisdom City.</span>
           </>
         }
-        lead="A university, a service garden, an industry park, data centres, a mandapam for culture and gathering, and homes for the people who build it all — on one continuous campus."
+        lead={WISDOM_CITY.promise}
       >
-        <SoonBadge />
+        <div className="flex flex-wrap items-end gap-x-10 gap-y-6">
+          <div>
+            <p className="display text-5xl leading-none text-gold md:text-6xl">
+              {WISDOM_CITY.statedTotal}
+            </p>
+            <p className="eyebrow mt-2 text-[0.55rem] text-starlight-faint">
+              Acres
+            </p>
+          </div>
+          <div>
+            <p className="display text-3xl leading-none text-starlight md:text-4xl">
+              ₹{WISDOM_CITY.investmentCrore.toLocaleString("en-IN")} cr
+            </p>
+            <p className="eyebrow mt-2 text-[0.55rem] text-starlight-faint">
+              Estimated investment
+            </p>
+          </div>
+          <div>
+            <p className="display text-3xl leading-none text-starlight md:text-4xl">
+              {WISDOM_CITY.phases}
+            </p>
+            <p className="eyebrow mt-2 text-[0.55rem] text-starlight-faint">
+              Phase-wise development
+            </p>
+          </div>
+          <SoonBadge />
+        </div>
       </PageHero>
 
+      {/* Principles */}
+      <Section>
+        <SectionHeading
+          eyebrow="What it is built to be"
+          title="Self Build · Family Build · Society Build · Nation Build · Humanity Build"
+          lead="A township designed to pay for itself, regenerate what it uses, and be replicable — for India and for the world."
+        />
+        <Reveal delay={0.1}>
+          <div className="mt-12 flex flex-wrap gap-2.5">
+            {CITY_PRINCIPLES.map((p) => (
+              <span
+                key={p}
+                className="rounded-full border border-hairline-strong px-5 py-2.5 text-sm text-starlight"
+              >
+                {p}
+              </span>
+            ))}
+          </div>
+        </Reveal>
+      </Section>
+
+      {/* Master plan */}
       <Section>
         <SectionHeading
           eyebrow="Master Plan"
-          title="How the two hundred acres are held."
-          lead="An indicative zoning of the campus. Final layouts, phasing and approvals will be published as the project progresses."
+          title="How the five hundred acres are held."
         />
         <Reveal delay={0.1}>
-          <div className="mt-16">
+          <div className="mt-14">
             <MasterPlan />
           </div>
         </Reveal>
       </Section>
 
-      <Section>
-        <SectionHeading
-          eyebrow="Land Allocation"
-          title="Every acre accounted for."
-        />
-
-        <div className="mt-14 overflow-hidden rounded-card border border-hairline">
-          <table className="w-full text-left">
-            <caption className="sr-only">
-              JagKalyan Wisdom Park land allocation by zone
-            </caption>
-            <thead>
-              <tr className="border-b border-hairline bg-space-raised">
-                <th scope="col" className="eyebrow px-6 py-4 text-gold/70">
-                  Zone
-                </th>
-                <th scope="col" className="eyebrow px-6 py-4 text-gold/70">
-                  Purpose
-                </th>
-                <th
-                  scope="col"
-                  className="eyebrow px-6 py-4 text-right text-gold/70"
-                >
-                  Acres
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {WISDOM_PARK.zones.map((z) => (
-                <tr
-                  key={z.name}
-                  className="border-b border-hairline/40 bg-space transition-colors duration-300 last:border-0 hover:bg-space-raised"
-                >
-                  <th
-                    scope="row"
-                    className="px-6 py-5 text-left text-sm font-normal text-starlight"
-                  >
-                    {z.name}
-                  </th>
-                  <td className="px-6 py-5 text-sm text-starlight-faint">
-                    {z.note}
-                  </td>
-                  <td className="px-6 py-5 text-right font-mono text-sm text-gold">
-                    {z.acres}
-                  </td>
-                </tr>
-              ))}
-              <tr className="bg-space-raised">
-                <th
-                  scope="row"
-                  className="display px-6 py-6 text-left text-xl text-starlight"
-                >
-                  Total
-                </th>
-                <td />
-                <td className="display px-6 py-6 text-right text-xl text-gold">
-                  {WISDOM_PARK.total}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </Section>
-
+      {/* Impact at a glance */}
       <Section variant="canvas">
         <SectionHeading
           variant="canvas"
-          eyebrow="Design Principles"
-          title="What the campus is built to be."
+          eyebrow="Global Impact at a Glance"
+          title="What the city is designed to produce."
+          lead="Targets at maturity, across jobs, learning, health, energy, water, carbon and food."
         />
         <div className="mt-14 grid gap-px overflow-hidden rounded-card bg-canvas-border sm:grid-cols-2 lg:grid-cols-3">
-          {PRINCIPLES.map((p, i) => (
-            <Reveal key={p.title} delay={i * 0.05}>
-              <div className="h-full bg-canvas-raised p-8">
-                <h3 className="display text-xl text-canvas-ink">{p.title}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-canvas-muted">
-                  {p.body}
+          {CITY_IMPACT.map((m, i) => (
+            <Reveal key={m.label} delay={i * 0.04}>
+              <div className="h-full bg-canvas-raised p-7">
+                <p className="display text-3xl leading-none text-verdant-deep md:text-4xl">
+                  {m.value}
+                </p>
+                <p className="mt-3 text-sm font-medium text-canvas-ink">
+                  {m.label}
+                </p>
+                <p className="mt-2 text-xs leading-relaxed text-canvas-muted">
+                  {m.note}
                 </p>
               </div>
             </Reveal>
           ))}
         </div>
-
         <Reveal>
-          <div className="mt-14 text-center">
-            <ButtonLink
-              href="/get-involved"
-              className="!bg-verdant-deep !text-canvas hover:!bg-verdant-deep/90"
-            >
-              Partner on the campus
+          <p className="mt-8 text-xs italic text-canvas-muted">
+            Projected targets at maturity, not current figures.
+          </p>
+        </Reveal>
+      </Section>
+
+      {/* Areas of impact */}
+      <Section>
+        <SectionHeading
+          eyebrow="Areas of Impact"
+          title="Ten ways a city can change a life."
+        />
+        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {IMPACT_AREAS.map((a, i) => (
+            <Reveal key={a.title} delay={i * 0.04}>
+              <article className="panel h-full p-7">
+                <h3 className="display text-xl text-starlight">{a.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-starlight-faint">
+                  {a.body}
+                </p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* Investment */}
+      <Section variant="canvas">
+        <div className="grid gap-14 lg:grid-cols-2">
+          <div>
+            <SectionHeading
+              variant="canvas"
+              eyebrow="Investment"
+              title={`₹${WISDOM_CITY.investmentCrore.toLocaleString("en-IN")} crores, across ${WISDOM_CITY.phases}.`}
+              lead="A self-reliant, profit-making township — built to fund its own growth rather than depend indefinitely on donation."
+            />
+            <Reveal delay={0.15}>
+              <p className="mt-6 text-xs italic text-canvas-muted">
+                {WISDOM_CITY.investmentNote}. Indicative and subject to detailed
+                project reports, approvals and financing.
+              </p>
+            </Reveal>
+          </div>
+
+          <div>
+            <Reveal>
+              <p className="eyebrow border-b border-canvas-border pb-4 text-verdant-deep/70">
+                Sources of funds
+              </p>
+            </Reveal>
+            <ul className="mt-2">
+              {FUNDING_SOURCES.map((s, i) => (
+                <Reveal key={s} delay={i * 0.04}>
+                  <li className="flex items-center gap-3 border-b border-canvas-border/60 py-3.5 text-sm text-canvas-ink">
+                    <span
+                      aria-hidden
+                      className="h-1 w-1 shrink-0 rounded-full bg-verdant-deep"
+                    />
+                    {s}
+                  </li>
+                </Reveal>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Section>
+
+      <Section className="text-center">
+        <SectionHeading
+          align="center"
+          eyebrow="One Earth · One Family · One Future"
+          title={WISDOM_CITY.closing}
+        />
+        <Reveal delay={0.15}>
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <ButtonLink href="/get-involved">Partner on the city</ButtonLink>
+            <ButtonLink href="/global-impact" variant="ghost">
+              Global impact &amp; legacy
             </ButtonLink>
           </div>
         </Reveal>
