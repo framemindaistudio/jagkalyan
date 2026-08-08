@@ -6,6 +6,8 @@ const LIVE = [
   "/",
   "/mission",
   "/journey",
+  "/global-impact",
+  "/about",
   "/ecosystem",
   "/academy",
   "/wisdom-park",

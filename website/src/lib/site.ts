@@ -284,6 +284,181 @@ export const NATURE_CHARTER = [
 ];
 
 /* ------------------------------------------------------------------
+   GLOBAL IMPACT — the transformation arc.
+   From the client's "From Insecurity-Driven Survival to Purpose-Led
+   Prosperity" bridge diagram. The bridge itself is the mission; the
+   pillars carry the crossing.
+   ------------------------------------------------------------------ */
+
+export const IMPACT_FROM = {
+  title: "Insecurity-Driven Survival",
+  symptoms: [
+    "Fear, confusion, material stress",
+    "Survival mode",
+    "Disconnection",
+  ],
+};
+
+export const IMPACT_TO = {
+  title: "Purpose-Led Prosperity",
+  outcomes: [
+    "People do what they love, excel at it, and serve through it",
+    "Prosperity created without greed",
+    "Harmony with nature, society and inner calling",
+  ],
+};
+
+/** The three pillars holding the bridge up, in crossing order. */
+export const IMPACT_PILLARS = [
+  {
+    title: "Purpose-Centric & Holistic Education",
+    body: "Learning that begins with who a person is meant to be, not only what they should know.",
+  },
+  {
+    title: "Integrating Wisdom & Technology",
+    body: "Ancient understanding and modern capability — AI, science and scripture in the same hand.",
+  },
+  {
+    title: "Building Support Systems",
+    body: "The structures that let a transformed life hold: wellness, discipline, simplicity, sustainability and service.",
+  },
+];
+
+export const IMPACT_SUPPORTS = [
+  "Wellness",
+  "Discipline",
+  "Simplicity",
+  "Sustainability",
+  "Service",
+];
+
+/** What alignment actually looks like in a life. */
+export const SWADHARMA_EXPRESSIONS = [
+  "Painting",
+  "Gardening",
+  "Teaching",
+  "Creating",
+];
+
+export const LEGACY = {
+  heading: "Legacy",
+  quote:
+    "We built systems that helped people live healthier, think holistically, act ethically, and use technology in service of society — so future generations could stand stronger, wiser, and more self-reliant.",
+};
+
+export const GLOBAL_IMPACT_STATEMENT =
+  "JagKalyan Global Impact aims to create a civilization where Conscious Citizens live in Holistic Health, experience High Happiness, and build a Sustainable Zero-Carbon World — fulfilling the spirit of all SDGs.";
+
+/* ------------------------------------------------------------------
+   GLOBAL EXPANSION — the wellness network rollout.
+   ------------------------------------------------------------------ */
+
+export interface ExpansionNode {
+  city: string;
+  note?: string;
+  hub?: boolean;
+}
+
+export interface ExpansionPhase {
+  phase: string;
+  label: string;
+  blurb: string;
+  nodes: ExpansionNode[];
+}
+
+export const EXPANSION: ExpansionPhase[] = [
+  {
+    phase: "Phase I",
+    label: "Indian Pilot",
+    blurb:
+      "Mumbai–Navi Mumbai proves the model — the first JagKalyan Wellness Centre and the template every centre after it inherits.",
+    nodes: [
+      { city: "Mumbai–Navi Mumbai", note: "First JagKalyan Wellness Centre", hub: true },
+    ],
+  },
+  {
+    phase: "Phase II",
+    label: "Indian Expansion",
+    blurb:
+      "The network extends across major Indian cities, each centre linked to the others as one connected system rather than a set of franchises.",
+    nodes: [
+      { city: "Delhi" },
+      { city: "Pune" },
+      { city: "Hyderabad" },
+      { city: "Ahmedabad" },
+      { city: "Jaipur" },
+      { city: "Nagpur" },
+      { city: "Kolkata" },
+    ],
+  },
+  {
+    phase: "Phase III",
+    label: "Global Rollout",
+    blurb:
+      "A connected wellness network reaching the Middle East, Europe and South East Asia.",
+    nodes: [
+      { city: "Dubai", note: "Middle East" },
+      { city: "Doha", note: "Middle East" },
+      { city: "Oman", note: "Middle East" },
+      { city: "Zurich", note: "Europe" },
+      { city: "Bangkok", note: "South East Asia" },
+    ],
+  },
+];
+
+/* ------------------------------------------------------------------
+   FOUNDERS — drawn from the CVs supplied by the client.
+   ------------------------------------------------------------------ */
+
+export interface Founder {
+  name: string;
+  role: string;
+  summary: string;
+  highlights: string[];
+  education: string;
+  linkedin?: string;
+  photo?: string;
+}
+
+export const FOUNDERS: Founder[] = [
+  {
+    name: "Prof. Jagadish Kalyandurgmath",
+    role: "Founder · Geomatics Scientist · Social Entrepreneur",
+    summary:
+      "Forty years across space research, enterprise technology and social entrepreneurship — building the systems a nation runs on, then the institutions that outlast them.",
+    highlights: [
+      "Geomatics Scientist, ISRO NNRMS — established remote sensing centres across India for forestry, agriculture, water, urban planning and minerals",
+      "Business Head, ESRI India — built a global GIS consulting practice across eGovernance, utilities, agriculture and telecom",
+      "Chief Architect, Head of GIS, Director & Mentor, Reliance Group — enterprise GIS decision systems across telecom, power, fintech, logistics, health and infrastructure; a team of 2,000 and a $40M budget",
+      "Professor of Practice, Dean and Guide at IITs, IIMs, NITs, Defence, IARI and NEERI",
+      "Founder Trustee, JagKalyan Trust; co-founder and mentor to JKITM, MobilePe, Kalpana Chawla Space Academy and Soul Temple",
+    ],
+    education:
+      "B.E. Karnatak University · M.Tech Remote Sensing, IIT Bombay · Computer OD and DBMS, IISc · PhD (Expert GIS) · PhD (Decision Support Systems) · PhD (Holistic Education) · Diploma in Yoga · ICF Coach",
+    linkedin: "https://www.linkedin.com/in/jagadeeshkm/",
+    photo: "/founder-jagdish.webp",
+  },
+  {
+    name: "Prof. Kavita Kalyandurgmath",
+    role: "Co-Founder · Professor & Head, Research & Business Analytics",
+    summary:
+      "Three decades of academic excellence in research, analytics and education management — and the supervisor behind a generation of researchers.",
+    highlights: [
+      "Faculty for over 32 years across MBA, MMS, PGDM, MMM, MHRD and MFM programmes",
+      "Research supervisor to 16 PhD scholars — 13 completed, 3 ongoing",
+      "Patent published: developing a skill matrix for organisations using machine learning",
+      "25+ Management Development Programmes for JP Morgan, Accenture, Tata Group, Asian Paints, L&T, Indian Oil and the Indian Army",
+      "Faculty Development Programmes including one for ICAI attended by 3,000+ chartered accountants",
+      "50+ collaborative research papers across retail, healthcare, hospitality and social media",
+    ],
+    education:
+      "AICTE Approved Faculty · Research supervisor across Pacific, Mewar, IIC University of Technology, Living Stone and Golden State universities",
+    linkedin:
+      "https://www.linkedin.com/in/prof-kavita-kalyandurgmath-92750410",
+  },
+];
+
+/* ------------------------------------------------------------------
    NAVIGATION + ROUTE REGISTRY
    `status: "soon"` renders a Coming Soon page from the shared template.
    ------------------------------------------------------------------ */
@@ -303,6 +478,8 @@ export const NAV: NavSection[] = [
       { label: "Holistic Framework", href: "/mission#holistic", status: "live" },
       { label: "Global Movement", href: "/mission#global", status: "live" },
       { label: "Nature Charter", href: "/mission#nature", status: "live" },
+      { label: "Global Impact & Legacy", href: "/global-impact", status: "live" },
+      { label: "Founders", href: "/about", status: "live" },
     ],
   },
   {
@@ -371,9 +548,6 @@ export interface StubRoute {
 }
 
 export const STUBS: StubRoute[] = [
-  // About
-  { href: "/about", title: "About", parent: "The Mission", blurb: "Our story, leadership, values and reports.", bullets: ["Our Story", "Founder & Chairman", "Leadership Team", "Advisory Board", "Core Values", "Annual Reports", "Media Kit"] },
-
   // Holistic Framework verticals
   { href: "/framework", title: "Holistic Framework", parent: "The Mission", blurb: "The twelve dimensions through which the mission works.", bullets: ["Education", "Wellness", "Welfare", "Wealth", "Spirituality", "Leadership", "Entrepreneurship", "Innovation", "Sustainability", "Technology", "Governance", "Service"] },
 
@@ -415,9 +589,10 @@ export const FOOTER_GROUPS = [
     links: [
       { label: "The Mission", href: "/mission" },
       { label: "The Journey", href: "/journey" },
+      { label: "Global Impact & Legacy", href: "/global-impact" },
+      { label: "Founders", href: "/about" },
       { label: "Holistic Framework", href: "/framework" },
       { label: "Sustainability", href: "/sustainability" },
-      { label: "About", href: "/about" },
     ],
   },
   {
