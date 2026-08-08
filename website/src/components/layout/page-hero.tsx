@@ -1,5 +1,6 @@
 import { Starfield } from "@/components/cosmic/starfield";
 import { Reveal } from "@/components/ui/primitives";
+import { cn } from "@/lib/cn";
 
 /**
  * The opening block of every inner page. Keeps the cosmic register going
@@ -11,14 +12,25 @@ export function PageHero({
   title,
   lead,
   children,
+  backdrop,
+  tall = false,
 }: {
   eyebrow: string;
   title: React.ReactNode;
   lead?: React.ReactNode;
   children?: React.ReactNode;
+  /** Decorative layer behind the copy — e.g. the founder portrait. */
+  backdrop?: React.ReactNode;
+  /** Gives a backdrop room to breathe. */
+  tall?: boolean;
 }) {
   return (
-    <header className="grain relative flex min-h-[68vh] items-end overflow-hidden bg-void px-5 pb-20 pt-40 md:px-8 md:pb-28 md:pt-48">
+    <header
+      className={cn(
+        "grain relative flex items-end overflow-hidden bg-void px-5 pb-20 pt-40 md:px-8 md:pb-28 md:pt-48",
+        tall ? "min-h-[86vh]" : "min-h-[68vh]",
+      )}
+    >
       <Starfield density={0.7} />
 
       <div
@@ -38,18 +50,35 @@ export function PageHero({
         }}
       />
 
+      {backdrop}
+
       <div className="relative mx-auto w-full max-w-[80rem]">
         <Reveal>
           <p className="eyebrow text-gold/75">{eyebrow}</p>
         </Reveal>
         <Reveal delay={0.06}>
-          <h1 className="display mt-5 max-w-4xl text-[clamp(2.6rem,7.5vw,6rem)] text-starlight">
+          {/* With a backdrop present the copy is held narrower and the
+              display size capped, so the headline always lands on clean
+              space rather than running across the artwork. */}
+          <h1
+            className={cn(
+              "display mt-5 text-starlight",
+              backdrop
+                ? "max-w-3xl text-[clamp(2.4rem,6vw,4.6rem)]"
+                : "max-w-4xl text-[clamp(2.6rem,7.5vw,6rem)]",
+            )}
+          >
             {title}
           </h1>
         </Reveal>
         {lead && (
           <Reveal delay={0.12}>
-            <p className="mt-7 max-w-2xl text-base leading-relaxed text-starlight-dim md:text-lg">
+            <p
+              className={cn(
+                "mt-7 text-base leading-relaxed text-starlight-dim md:text-lg",
+                backdrop ? "max-w-xl" : "max-w-2xl",
+              )}
+            >
               {lead}
             </p>
           </Reveal>

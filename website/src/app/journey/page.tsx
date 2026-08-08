@@ -7,6 +7,7 @@ import {
   SectionHeading,
 } from "@/components/ui/primitives";
 import { JourneyPath } from "@/components/sections/journey-path";
+import { FounderPortrait } from "@/components/sections/founder-portrait";
 import { JOURNEY, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -22,6 +23,8 @@ export default function JourneyPage() {
   return (
     <>
       <PageHero
+        tall
+        backdrop={<FounderPortrait />}
         eyebrow="Dr. Jagdish Kalyandurgmath"
         title={
           <>
@@ -32,7 +35,8 @@ export default function JourneyPage() {
         }
         lead="Build Self · Build Family · Build Society · Build Organisations · Nation Building Missions · Humanity Building Missions."
       >
-        <div className="flex flex-wrap items-center gap-x-10 gap-y-5">
+        {/* Copy is capped short of the portrait so the two never fight. */}
+        <div className="flex max-w-xl flex-wrap items-center gap-x-10 gap-y-5">
           <Stat value={`${first}–${last}`} label="The route" />
           <Stat value={String(JOURNEY.length)} label="Waypoints" />
           <Stat value="4" label="Sectors" />
