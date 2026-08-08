@@ -8,6 +8,7 @@ import {
   SoonBadge,
 } from "@/components/ui/primitives";
 import { MasterPlan } from "@/components/sections/master-plan";
+import { PlanViewer } from "@/components/sections/plan-viewer";
 import {
   CITY_IMPACT,
   CITY_PRINCIPLES,
@@ -86,13 +87,28 @@ export default function WisdomCityPage() {
         </Reveal>
       </Section>
 
-      {/* Master plan */}
+      {/* Master plan — the client's official board. */}
       <Section>
         <SectionHeading
           eyebrow="Master Plan"
           title="How the five hundred acres are held."
         />
         <Reveal delay={0.1}>
+          <div className="mt-14">
+            <PlanViewer
+              plan={{
+                src: "/plans/wisdom-city-master-plan.webp",
+                alt: "JagKalyan Wisdom City master plan — 500 acres, showing the Skills University, Data Centres Park & AI Hub, Seva Park, Udyog Park, Gurukul, Arogyashala Wellness Centre, Sports Complex and Stadium, Eco Living and Senior Living communities, Organic Farming & Food Park, plantations, water conservation and mobility.",
+                caption:
+                  "JagKalyan Wisdom City master plan. Indicative; layouts, phasing and areas subject to final planning and approvals.",
+              }}
+            />
+          </div>
+        </Reveal>
+
+        {/* The same zoning as text — readable on a phone, and the record
+            that survives if the artwork is ever revised. */}
+        <Reveal delay={0.15}>
           <div className="mt-14">
             <MasterPlan />
           </div>
@@ -131,12 +147,26 @@ export default function WisdomCityPage() {
         </Reveal>
       </Section>
 
-      {/* Areas of impact */}
+      {/* Areas of impact — the client's global-impact board, then the same
+          ten areas as readable cards. */}
       <Section>
         <SectionHeading
           eyebrow="Areas of Impact"
           title="Ten ways a city can change a life."
         />
+
+        <Reveal delay={0.1}>
+          <div className="mt-14">
+            <PlanViewer
+              plan={{
+                src: "/plans/wisdom-city-global-impact.webp",
+                alt: "JagKalyan Wisdom City global impact board — ten areas of impact, the master plan, global impact at a glance figures, the power of integrated impact, key outcomes by 2035, estimated investment of ₹1,350 crores and sources of funds.",
+                caption:
+                  "JagKalyan Wisdom City — Global Impact. Figures are projected targets at maturity, not current performance.",
+              }}
+            />
+          </div>
+        </Reveal>
         <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {IMPACT_AREAS.map((a, i) => (
             <Reveal key={a.title} delay={i * 0.04}>
