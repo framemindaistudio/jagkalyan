@@ -231,23 +231,33 @@ function ActTwoThreeFour({ progress }: { progress: MotionValue<number> }) {
         className="cinema-reset-transform relative flex items-center justify-center"
       >
         {/*
-          Phone: four labels around a circle cannot clear the Earth at
-          375px, so the pillars drop into a 2×2 grid beneath it.
-          Tablet and up: the true orbit, as in the mission diagram.
+          Phone: two movements flank the Earth on each side, as in the
+          mission diagram. Laid out as a three-track grid rather than
+          absolute placement on a circle — at 375px labels and globe cannot
+          share a circle without colliding, whereas columns cannot overlap
+          by construction. The Earth shrinks to leave the flanks a readable
+          width.
+
+          Tablet and up: the true orbit.
         */}
 
         {/* — Phone — */}
-        <div className="flex w-[86vw] flex-col items-center md:hidden">
-          <Earth className="w-[57vw]" />
-          <motion.div
-            style={{ opacity: orbitOpacity }}
-            className="cinema-reset-opacity mt-9 grid w-full grid-cols-2 gap-x-4 gap-y-7"
-          >
-            {PILLARS.map((p, i) => (
-              <PillarLabel key={p.id} pillar={p} index={i} />
-            ))}
-          </motion.div>
-        </div>
+        <motion.div
+          style={{ opacity: orbitOpacity }}
+          className="cinema-reset-opacity grid w-[95vw] grid-cols-[1fr_auto_1fr] items-center gap-x-2 md:hidden"
+        >
+          <div className="flex flex-col gap-7">
+            <PillarLabel pillar={PILLARS[3]} index={0} align="right" />
+            <PillarLabel pillar={PILLARS[2]} index={1} align="right" />
+          </div>
+
+          <Earth className="w-[30vw]" />
+
+          <div className="flex flex-col gap-7">
+            <PillarLabel pillar={PILLARS[1]} index={2} align="left" />
+            <PillarLabel pillar={PILLARS[0]} index={3} align="left" />
+          </div>
+        </motion.div>
 
         {/* — Tablet and up — */}
         <div className="relative hidden h-[min(82vw,76vh)] w-[min(82vw,76vh)] md:block">
@@ -367,28 +377,44 @@ function PillarNode({ pillar, index }: { pillar: Pillar; index: number }) {
   );
 }
 
-/** Grid placement — phone only. */
-function PillarLabel({ pillar, index }: { pillar: Pillar; index: number }) {
+/** Flanking placement — phone only. Sits to one side of the Earth. */
+function PillarLabel({
+  pillar,
+  index,
+  align,
+}: {
+  pillar: Pillar;
+  index: number;
+  align: "left" | "right";
+}) {
   const accent = ACCENT[pillar.accent];
+  const right = align === "right";
   return (
     <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, x: right ? -12 : 12 }}
+      whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7, delay: 0.1 * index, ease: [0.16, 1, 0.3, 1] }}
-      className="text-center"
+      /* Each label faces the globe it orbits — the dot sits on the inner
+         edge, nearest the Earth, so the four read as pointing inward. */
+      className={right ? "text-right" : "text-left"}
     >
       <div
-        className="mx-auto mb-2 h-1.5 w-1.5 rounded-full"
+        className={cn("mb-1.5 h-1.5 w-1.5 rounded-full", right && "ml-auto")}
         style={{
           background: accent.dot,
           boxShadow: `0 0 12px 2px ${accent.ring}`,
         }}
       />
-      <h2 className={cn("display text-lg leading-tight", accent.text)}>
+      <h2
+        className={cn(
+          "display text-[clamp(0.95rem,4.2vw,1.25rem)] leading-tight",
+          accent.text,
+        )}
+      >
         {pillar.title}
       </h2>
-      <p className="mt-1 text-[0.72rem] leading-snug text-starlight-faint">
+      <p className="mt-1 text-[0.7rem] leading-snug text-starlight-faint">
         {pillar.sub}
       </p>
     </motion.div>

@@ -91,24 +91,32 @@ export function FounderPortrait() {
         className="relative h-full w-full"
       >
         {/* Outer mask: falloff in every direction. */}
+        {/*
+          Masking is deliberately LIGHT. The earlier values held solid only
+          to 34% and were fully transparent by 88%, which erased his head
+          and shoulders along with the background — his face was the first
+          thing to go, which is the opposite of the point. The core now
+          stays opaque out to 58% and only reaches transparent at the very
+          edge, so the fade hides the crop, not the man.
+        */}
         <div
           className="relative h-full w-full"
           style={{
             maskImage:
-              "radial-gradient(ellipse 74% 66% at 54% 46%, #000 34%, rgba(0,0,0,0.6) 64%, transparent 88%)",
+              "radial-gradient(ellipse 92% 86% at 52% 42%, #000 58%, rgba(0,0,0,0.88) 78%, transparent 99%)",
             WebkitMaskImage:
-              "radial-gradient(ellipse 74% 66% at 54% 46%, #000 34%, rgba(0,0,0,0.6) 64%, transparent 88%)",
+              "radial-gradient(ellipse 92% 86% at 52% 42%, #000 58%, rgba(0,0,0,0.88) 78%, transparent 99%)",
           }}
         >
-          {/* Inner mask: dissolves the lower body so the photograph never
-              meets the section edge as a straight cut. */}
+          {/* Bottom fade only — just enough that the photograph never meets
+              the section edge as a straight cut. */}
           <div
             className="relative h-full w-full"
             style={{
               maskImage:
-                "linear-gradient(to top, transparent 2%, rgba(0,0,0,0.45) 16%, #000 42%)",
+                "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.82) 9%, #000 24%)",
               WebkitMaskImage:
-                "linear-gradient(to top, transparent 2%, rgba(0,0,0,0.45) 16%, #000 42%)",
+                "linear-gradient(to top, transparent 0%, rgba(0,0,0,0.82) 9%, #000 24%)",
             }}
           >
             <Image
@@ -123,10 +131,14 @@ export function FounderPortrait() {
                 photograph and lost his face entirely. Warmed towards gold
                 so he belongs to the palette.
               */
-              className="object-contain object-bottom opacity-[0.34] sm:opacity-[0.5] lg:opacity-[0.62]"
+              className="object-contain object-bottom opacity-[0.72] sm:opacity-[0.78] lg:opacity-[0.85]"
               style={{
+                // Less desaturation so skin keeps some life, and brighter so
+                // the face reads as the focal point it should be. The old
+                // 0.34 opacity was solving a collision with the headline
+                // that no longer exists now he has his own band.
                 filter:
-                  "grayscale(0.32) sepia(0.3) brightness(1.12) contrast(1.14)",
+                  "grayscale(0.16) sepia(0.18) brightness(1.3) contrast(1.08)",
               }}
             />
           </div>
@@ -139,7 +151,10 @@ export function FounderPortrait() {
         left. Painted after the blended layer with normal blending, so it
         genuinely covers rather than lifts.
       */}
-      <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-void to-transparent sm:hidden" />
+      {/* Shallow, and only to the void's own colour at partial strength —
+          a full-strength third of the band was landing squarely on his
+          head. */}
+      <div className="absolute inset-x-0 top-0 h-1/6 bg-gradient-to-b from-void/80 to-transparent sm:hidden" />
       <div className="absolute inset-y-0 left-0 hidden w-1/2 bg-gradient-to-r from-void via-void/45 to-transparent sm:block md:w-2/5 md:via-transparent" />
     </div>
   );
