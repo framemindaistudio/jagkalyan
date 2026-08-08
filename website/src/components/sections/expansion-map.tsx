@@ -97,7 +97,7 @@ export function ExpansionMap() {
                       {node.city}
                     </span>
                     {node.note && (
-                      <span className="text-[0.62rem] uppercase tracking-[0.12em] text-starlight-faint">
+                      <span className="text-[0.72rem] uppercase tracking-[0.12em] text-starlight-faint">
                         {node.note}
                       </span>
                     )}

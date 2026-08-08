@@ -79,7 +79,13 @@ export function Header() {
         onMouseLeave={() => setMenu(null)}
       >
         <div className="mx-auto flex h-20 max-w-[88rem] items-center justify-between gap-6 px-5 md:px-8">
-          <Link href="/" aria-label={SITE.name} className="shrink-0">
+          {/* min-h-11 keeps the wordmark a comfortable 44px target; the
+              mark itself is only 36px tall. */}
+          <Link
+            href="/"
+            aria-label={SITE.name}
+            className="flex min-h-11 shrink-0 items-center"
+          >
             <Wordmark />
           </Link>
 
@@ -277,7 +283,7 @@ export function Header() {
 
 function SoonPill() {
   return (
-    <span className="shrink-0 rounded-full border border-hairline px-1.5 py-0.5 text-[0.55rem] uppercase tracking-[0.14em] text-gold/60">
+    <span className="shrink-0 rounded-full border border-hairline px-1.5 py-0.5 text-[0.7rem] uppercase tracking-[0.14em] text-gold/60">
       Soon
     </span>
   );

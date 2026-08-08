@@ -41,7 +41,7 @@ export default function WisdomCityPage() {
             <p className="display text-5xl leading-none text-gold md:text-6xl">
               {WISDOM_CITY.statedTotal}
             </p>
-            <p className="eyebrow mt-2 text-[0.55rem] text-starlight-faint">
+            <p className="eyebrow mt-2 text-[0.7rem] text-starlight-faint">
               Acres
             </p>
           </div>
@@ -49,7 +49,7 @@ export default function WisdomCityPage() {
             <p className="display text-3xl leading-none text-starlight md:text-4xl">
               ₹{WISDOM_CITY.investmentCrore.toLocaleString("en-IN")} cr
             </p>
-            <p className="eyebrow mt-2 text-[0.55rem] text-starlight-faint">
+            <p className="eyebrow mt-2 text-[0.7rem] text-starlight-faint">
               Estimated investment
             </p>
           </div>
@@ -57,7 +57,7 @@ export default function WisdomCityPage() {
             <p className="display text-3xl leading-none text-starlight md:text-4xl">
               {WISDOM_CITY.phases}
             </p>
-            <p className="eyebrow mt-2 text-[0.55rem] text-starlight-faint">
+            <p className="eyebrow mt-2 text-[0.7rem] text-starlight-faint">
               Phase-wise development
             </p>
           </div>

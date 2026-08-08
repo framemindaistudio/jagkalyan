@@ -125,7 +125,7 @@ export function SoonBadge({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center rounded-full border border-hairline px-2.5 py-1 text-[0.58rem] uppercase tracking-[0.16em] text-gold/70",
+        "inline-flex shrink-0 items-center rounded-full border border-hairline px-2.5 py-1 text-[0.7rem] uppercase tracking-[0.16em] text-gold/70",
         className,
       )}
     >

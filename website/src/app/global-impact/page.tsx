@@ -77,7 +77,7 @@ export default function GlobalImpactPage() {
               <span className="eyebrow whitespace-nowrap text-gold">
                 Mission: JagKalyan
               </span>
-              <span className="text-[0.65rem] italic text-starlight-faint">
+              <span className="text-[0.72rem] italic text-starlight-faint">
                 welfare of all
               </span>
               <div

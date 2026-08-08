@@ -25,7 +25,7 @@ export function Footer() {
                 <span className="display text-2xl text-starlight">
                   JagKalyan
                 </span>
-                <span className="eyebrow mt-1.5 text-[0.55rem] text-gold/70">
+                <span className="eyebrow mt-1.5 text-[0.7rem] text-gold/70">
                   Holistic Mission
                 </span>
               </span>

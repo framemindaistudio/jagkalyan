@@ -86,7 +86,7 @@ function Stat({ value, label }: { value: string; label: string }) {
   return (
     <div>
       <p className="display text-2xl text-starlight md:text-3xl">{value}</p>
-      <p className="eyebrow mt-1.5 text-[0.55rem] text-gold/60">{label}</p>
+      <p className="eyebrow mt-1.5 text-[0.7rem] text-gold/60">{label}</p>
     </div>
   );
 }

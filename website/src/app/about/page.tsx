@@ -149,7 +149,7 @@ export default function AboutPage() {
                         href={f.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-7 inline-flex items-center gap-2 rounded-full border border-hairline px-5 py-2.5 text-sm text-starlight-dim transition-colors hover:border-gold hover:text-gold"
+                        className="mt-7 inline-flex min-h-11 items-center gap-2 rounded-full border border-hairline px-5 py-3 text-sm text-starlight-dim transition-colors hover:border-gold hover:text-gold"
                       >
                         <LinkedinLogo size={16} weight="fill" />
                         LinkedIn

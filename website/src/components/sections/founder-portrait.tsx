@@ -54,10 +54,22 @@ export function FounderPortrait() {
   const opacity = useTransform(smooth, [0, 0.8], [1, 0]);
 
   return (
+    /*
+      Two placements.
+
+      Phone: a band along the BOTTOM, full width, with the copy given
+      matching bottom padding above it. He previously sat behind the
+      headline, and because screen blending preserves highlights his lit
+      face survived even at low opacity — the text ran straight across it.
+      Giving him his own strip makes overlap structurally impossible
+      rather than something tuned around.
+
+      Tablet and up: the tall figure on the right, beside the copy.
+    */
     <div
       ref={ref}
       aria-hidden
-      className="pointer-events-none absolute inset-y-0 right-0 w-[82%] select-none sm:w-[58%] lg:w-[50%] lg:max-w-[42rem]"
+      className="pointer-events-none absolute inset-x-0 bottom-0 h-[40vh] select-none sm:inset-y-0 sm:left-auto sm:right-0 sm:h-auto sm:w-[58%] lg:w-[50%] lg:max-w-[42rem]"
     >
       {/* Aura — light coming off him, not landing on him. Sits beneath the
           blended layer so screen has something warm to lift. */}
@@ -121,10 +133,14 @@ export function FounderPortrait() {
         </div>
       </motion.div>
 
-      {/* Left falloff so the headline always lands on clean space. Painted
-          after the blended layer, with normal blending, so it genuinely
-          covers rather than lifts. */}
-      <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-void via-void/45 to-transparent md:w-2/5 md:via-transparent" />
+      {/*
+        Falloff into the copy. On a phone he rises from the bottom, so the
+        fade runs upward; from sm he stands beside the text, so it runs
+        left. Painted after the blended layer with normal blending, so it
+        genuinely covers rather than lifts.
+      */}
+      <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-void to-transparent sm:hidden" />
+      <div className="absolute inset-y-0 left-0 hidden w-1/2 bg-gradient-to-r from-void via-void/45 to-transparent sm:block md:w-2/5 md:via-transparent" />
     </div>
   );
 }

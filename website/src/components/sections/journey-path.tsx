@@ -274,12 +274,12 @@ function Waypoint({
         </span>
 
         <div className="relative flex items-center gap-3">
-          <span className="font-mono text-[0.65rem] text-starlight-faint">
+          <span className="font-mono text-[0.72rem] text-starlight-faint">
             {String(index + 1).padStart(2, "0")}
             <span className="opacity-40"> / {total}</span>
           </span>
           <span
-            className="eyebrow text-[0.55rem]"
+            className="eyebrow text-[0.7rem]"
             style={{ color: chapter.color }}
           >
             {chapter.label}
@@ -342,7 +342,7 @@ function SectorMarker({
           style={{ background: chapter.color, opacity: 0.5 }}
         />
         <span
-          className="eyebrow text-[0.55rem]"
+          className="eyebrow text-[0.7rem]"
           style={{ color: chapter.color }}
         >
           {chapter.sector}

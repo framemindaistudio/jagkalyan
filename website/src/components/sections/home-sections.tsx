@@ -393,7 +393,7 @@ export function WisdomParkSection() {
 
               <span className="font-mono text-sm text-gold">
                 {zone.acres}
-                <span className="ml-1 text-[0.65rem] text-starlight-faint">
+                <span className="ml-1 text-[0.72rem] text-starlight-faint">
                   ac
                 </span>
               </span>

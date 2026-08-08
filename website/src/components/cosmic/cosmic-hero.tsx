@@ -360,7 +360,7 @@ function PillarNode({ pillar, index }: { pillar: Pillar; index: number }) {
       >
         {pillar.title}
       </h2>
-      <p className="mt-1.5 text-[0.68rem] leading-relaxed tracking-wide text-starlight-faint">
+      <p className="mt-1.5 text-[0.72rem] leading-relaxed tracking-wide text-starlight-faint">
         {pillar.sub}
       </p>
     </motion.div>
@@ -388,7 +388,7 @@ function PillarLabel({ pillar, index }: { pillar: Pillar; index: number }) {
       <h2 className={cn("display text-lg leading-tight", accent.text)}>
         {pillar.title}
       </h2>
-      <p className="mt-1 text-[0.6rem] leading-snug text-starlight-faint">
+      <p className="mt-1 text-[0.72rem] leading-snug text-starlight-faint">
         {pillar.sub}
       </p>
     </motion.div>

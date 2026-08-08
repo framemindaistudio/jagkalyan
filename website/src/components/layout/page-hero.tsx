@@ -27,7 +27,25 @@ export function PageHero({
   return (
     <header
       className={cn(
-        "grain relative flex items-end overflow-hidden bg-void px-5 pb-20 pt-40 md:px-8 md:pb-28 md:pt-48",
+        "grain relative flex overflow-hidden bg-void px-5 md:px-8",
+        /*
+          With a backdrop, phones stack: copy at the top, artwork in a band
+          along the bottom.
+
+          The invariant that keeps them apart: the band is bottom-anchored
+          and 40vh tall, and the hero's height is (copy + this padding), so
+          the band's top edge sits at copy-bottom + padding − 40vh. Any
+          padding greater than 40vh therefore clears the copy at *any* copy
+          length or screen width. 48vh leaves 8vh of breathing room — do not
+          drop it below 40vh or they will collide again on narrow screens
+          where the copy wraps longer.
+
+          From sm the artwork moves beside the copy and the normal
+          bottom-aligned hero returns.
+        */
+        backdrop
+          ? "items-start pb-[48vh] pt-32 sm:items-end sm:pb-20 sm:pt-40 md:pb-28 md:pt-48"
+          : "items-end pb-20 pt-40 md:pb-28 md:pt-48",
         tall ? "min-h-[86vh]" : "min-h-[68vh]",
       )}
     >

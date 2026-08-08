@@ -94,7 +94,7 @@ export function Wordmark({
           JagKalyan
         </span>
         {!compact && (
-          <span className="eyebrow mt-1 text-[0.5rem] text-gold/70">
+          <span className="eyebrow mt-1 text-[0.7rem] text-gold/70">
             Holistic Mission
           </span>
         )}

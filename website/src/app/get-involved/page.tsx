@@ -163,7 +163,7 @@ export default function GetInvolvedPage() {
                   <dd className="mt-1 text-canvas/90">All entities</dd>
                 </div>
               </dl>
-              <p className="mt-8 text-[0.6rem] uppercase tracking-[0.18em] text-canvas/35">
+              <p className="mt-8 text-[0.72rem] uppercase tracking-[0.18em] text-canvas/35">
                 Sample format · Illustrative only
               </p>
             </div>
