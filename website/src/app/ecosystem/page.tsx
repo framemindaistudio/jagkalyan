@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { PageHero } from "@/components/layout/page-hero";
 import { EntityMark } from "@/components/brand/entity-mark";
+import { BoardGallery } from "@/components/sections/board-gallery";
 import {
   ButtonLink,
   Reveal,
@@ -96,7 +97,7 @@ export default function EcosystemPage() {
         <SectionHeading
           variant="canvas"
           eyebrow="A Self-Sustaining Ecosystem"
-          title="Seven institutions, designed to hold each other up."
+          title="The institutions, designed to hold each other up."
           lead="Education funds service; enterprise funds education; governance protects all of it. Nothing here depends on a single source of support."
         />
         <div className="mt-16 space-y-4">
@@ -145,6 +146,25 @@ export default function EcosystemPage() {
             </ButtonLink>
           </div>
         </Reveal>
+      </Section>
+
+      <Section>
+        <BoardGallery
+          eyebrow="The ecosystem, as the mission draws it"
+          boards={[
+            {
+              src: "/boards/ecosystem-unified-vision.webp",
+              alt: "Unified Vision — JagKalyan Holistic Mission as a self-sustaining ecosystem, showing the Tarak Gurukul, Shree Nandi Foundation, Seva Udyan, Udyog Udyan, Mandapam, Holistic LLP and JagKalyan Trust with their services.",
+              caption: "Unified Vision — a self-sustaining ecosystem for a better world.",
+            },
+            {
+              src: "/boards/ecosystem-global-ecosystem.webp",
+              alt: "JagKalyan Holistic Global Ecosystem — integrating education, wellness, sustainability and innovation across the trusts, foundation, LLP and associate ventures.",
+              caption:
+                "JagKalyan Holistic Global Ecosystem — education, wellness, sustainability and innovation.",
+            },
+          ]}
+        />
       </Section>
     </>
   );

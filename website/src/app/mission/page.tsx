@@ -6,6 +6,7 @@ import {
   Section,
   SectionHeading,
 } from "@/components/ui/primitives";
+import { BoardGallery } from "@/components/sections/board-gallery";
 import { GLOBAL, HOLISTIC, NATURE_CHARTER, PILLARS, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -140,6 +141,29 @@ export default function MissionPage() {
             — all elements of nature.
           </p>
         </Reveal>
+      </Section>
+
+      <Section>
+        <BoardGallery
+          boards={[
+            {
+              src: "/boards/mission-ecosystem-poster.webp",
+              alt: "JagKalyan Holistic Mission poster — cosmic energy and nature elements, the six mission values, the ecosystem of Mandapam, Matha University, Gurukuls, Seva Park and Udyog Park, the global movement, and the four JagKalyan entities.",
+              caption:
+                "JagKalyan Holistic Mission — mission, ecosystem, global movement and entities.",
+            },
+            {
+              src: "/boards/mission-cosmic-ecosystem.webp",
+              alt: "JagKalyan Holistic Mission — cosmic energy and nature elements, mission values, ecosystem and the global movement for one humanity, one planet and universal well-being.",
+              caption: "Cosmic energy and the elements of nature, held in one mission.",
+            },
+            {
+              src: "/boards/mission-one-humanity.webp",
+              alt: "JagKalyan Holistic Mission — one humanity, one planet, universal well-being, illustrated as a global gathering.",
+              caption: "One Humanity · One Planet · Universal Well-being.",
+            },
+          ]}
+        />
       </Section>
 
       <Section className="text-center">

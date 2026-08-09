@@ -9,6 +9,7 @@ import {
 import { JourneyPath } from "@/components/sections/journey-path";
 import { FounderPortrait } from "@/components/sections/founder-portrait";
 import { FounderProfile } from "@/components/sections/founder-profile";
+import { BoardGallery } from "@/components/sections/board-gallery";
 import { JOURNEY, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -54,6 +55,31 @@ export default function JourneyPage() {
       <JourneyPath />
 
       <FounderProfile />
+
+      <Section>
+        <BoardGallery
+          eyebrow="The journey, as the mission draws it"
+          boards={[
+            {
+              src: "/boards/journey-nation-to-humanity.webp",
+              alt: "From Nation Building Missions to Humanity Building Missions — the JagKalyan journey of Dr. Jagdish Kalyandurgmath, from space technology and national development through education and compassion.",
+              caption:
+                "From Nation Building Missions to Humanity Building Missions.",
+            },
+            {
+              src: "/boards/journey-impact-of-mission.webp",
+              alt: "Impact of the JagKalyan Holistic Mission — from Build Self to Humanity Building Missions, with the founder's timeline, the ecosystem entities and associates, and the multiplier impact.",
+              caption:
+                "Impact of the JagKalyan Holistic Mission — Build Self to Build Humanity.",
+            },
+            {
+              src: "/boards/journey-founder-board.webp",
+              alt: "JagKalyan Holistic Mission board featuring Dr. Jagdish Kalyandurgmath, the mission pillars and the ecosystem.",
+              caption: "Dr. Jagdish Kalyandurgmath and the mission he built.",
+            },
+          ]}
+        />
+      </Section>
 
       {/* Back to Stage for the close — the profile above it is Canvas, and
           two reading-coloured sections in a row lose the rhythm. */}

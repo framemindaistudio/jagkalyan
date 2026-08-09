@@ -7,6 +7,7 @@ import {
   SectionHeading,
 } from "@/components/ui/primitives";
 import { ExpansionMap } from "@/components/sections/expansion-map";
+import { BoardGallery } from "@/components/sections/board-gallery";
 import {
   GLOBAL_IMPACT_STATEMENT,
   IMPACT_FROM,
@@ -181,6 +182,26 @@ export default function GlobalImpactPage() {
 
       {/* Expansion */}
       <ExpansionMap />
+
+      <Section>
+        <BoardGallery
+          eyebrow="The vision, as the mission draws it"
+          boards={[
+            {
+              src: "/boards/impact-survival-to-prosperity.webp",
+              alt: "From insecurity-driven survival to purpose-led prosperity — the mission as a bridge, carried by purpose-centric holistic education, integrated wisdom and technology, and support systems, leading to alignment of Ikigai and Swadharma.",
+              caption:
+                "From insecurity-driven survival to purpose-led prosperity — and the legacy it leaves.",
+            },
+            {
+              src: "/boards/impact-global-expansion-map.webp",
+              alt: "JagKalyan global expansion map — the Mumbai–Navi Mumbai pilot hub, expansion across major Indian cities, and global rollout to the Middle East, Europe and South East Asia.",
+              caption:
+                "The expansion map — Indian phase and global phase of the wellness network.",
+            },
+          ]}
+        />
+      </Section>
 
       {/* Legacy */}
       <Section className="text-center">

@@ -416,13 +416,6 @@ export const INSTITUTIONS: Institution[] = [
     detail:
       "R&D, technology innovation, ESG & sustainability solutions, AI/GIS & digital solutions, project implementation, global partnerships.",
   },
-  {
-    name: "JagKalyan Trust",
-    logo: "/logos/jagkalyan-trust.webp",
-    role: "Provides Governance and Long-term Community Stewardship",
-    detail:
-      "Good governance, education & welfare, rural & community development, environmental stewardship, CSR implementation, volunteer network.",
-  },
 ];
 
 /* ------------------------------------------------------------------

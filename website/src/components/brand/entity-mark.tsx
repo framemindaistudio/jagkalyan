@@ -10,11 +10,16 @@ import { cn } from "@/lib/cn";
  * from their initials in the same footprint. Every card then looks
  * deliberate, and dropping a real logo in later is a one-line change.
  *
- * The logos are the client's own files with their backgrounds flood-filled
- * to alpha, so they sit on the dark theme without a white plate behind
- * them. Several were authored for print on white and carry dark fine
- * print; they are given a faint light plate to keep that legible without
- * reintroducing a hard rectangle.
+ * The logos are used EXACTLY as supplied, backgrounds intact. An earlier
+ * version flood-filled the background to alpha so the marks could float on
+ * the dark theme; it left ragged edges on the JagKalyan Holistic mark,
+ * where the artwork's own soft green ring shades into the white it was
+ * drawn on and no threshold separates them cleanly.
+ *
+ * So they sit on a white plate instead. That is the background every one
+ * of them was designed for, it keeps their dark fine print legible, and it
+ * gives the row one consistent shape rather than six silhouettes of
+ * differing weight.
  */
 export function EntityMark({
   name,
@@ -45,7 +50,7 @@ export function EntityMark({
       */
       <div
         className={cn(
-          "relative flex h-16 w-auto min-w-16 max-w-[8.5rem] shrink-0 items-center justify-center rounded-2xl border border-hairline bg-starlight/[0.06] px-2.5 py-2",
+          "relative flex h-16 w-auto min-w-16 max-w-[8.5rem] shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-hairline bg-white p-1.5",
           className,
         )}
       >

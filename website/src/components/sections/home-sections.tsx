@@ -283,7 +283,7 @@ export function InstitutionsSection() {
       <SectionHeading
         variant="canvas"
         eyebrow="A Self-Sustaining Ecosystem"
-        title="Seven institutions. One purpose."
+        title="The institutions. One purpose."
         lead="Education, social impact, service, enterprise, culture, research and governance — designed so that each one funds, feeds and strengthens the others."
       />
 
