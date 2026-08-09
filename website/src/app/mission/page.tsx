@@ -153,11 +153,6 @@ export default function MissionPage() {
                 "JagKalyan Holistic Mission — mission, ecosystem, global movement and entities.",
             },
             {
-              src: "/boards/mission-cosmic-ecosystem.webp",
-              alt: "JagKalyan Holistic Mission — cosmic energy and nature elements, mission values, ecosystem and the global movement for one humanity, one planet and universal well-being.",
-              caption: "Cosmic energy and the elements of nature, held in one mission.",
-            },
-            {
               src: "/boards/mission-one-humanity.webp",
               alt: "JagKalyan Holistic Mission — one humanity, one planet, universal well-being, illustrated as a global gathering.",
               caption: "One Humanity · One Planet · Universal Well-being.",
