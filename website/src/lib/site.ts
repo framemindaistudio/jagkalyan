@@ -361,10 +361,10 @@ export const ENTITIES: Entity[] = [
 ];
 
 export const ASSOCIATES: Entity[] = [
-  { name: "MobilePe Fintech", year: "2020", role: "Financial Inclusion & Digital Payments" },
+  { name: "MobilePe Fintech", year: "2020", role: "Financial Inclusion & Digital Payments · ToPay", logo: "/logos/mobilepe-topay.webp" },
   { name: "MobilePe E-commerce", year: "2020", role: "Digital Commerce Marketplace" },
   { name: "Soul Temple", year: "2021", role: "Spiritual Wellness & Inner Transformation" },
-  { name: "KC Space Academy", year: "2022", role: "Space & STEM Education" },
+  { name: "KC Space Academy", year: "2022", role: "Space & STEM Education", logo: "/logos/kc-space-academy.webp" },
   { name: "Saiccha Developers", role: "Sustainable Developments · Real Estate", logo: "/logos/saiccha-developers.webp" },
 ];
 
