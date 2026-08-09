@@ -1,20 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "motion/react";
 import { ArrowUpRight } from "@phosphor-icons/react";
-import {
-  ACADEMY,
-  ASSOCIATES,
-  ENTITIES,
-  GLOBAL,
-  HOLISTIC,
-  INSTITUTIONS,
-  JOURNEY,
-  PILLARS,
-  SITE,
-  WISDOM_CITY,
-} from "@/lib/site";
+import { SITE } from "@/lib/site";
 import {
   ButtonLink,
   Reveal,
@@ -22,397 +10,148 @@ import {
   SectionHeading,
   SoonBadge,
 } from "@/components/ui/primitives";
-import { cn } from "@/lib/cn";
+
+/**
+ * The homepage is a GATEWAY, not a summary.
+ *
+ * It used to restate the pillars, the holistic framework, the journey, the
+ * entities, the institutions, the academy and the Wisdom City zoning — so
+ * anyone who scrolled it and then opened a real page met the same content
+ * twice, and the site read as if it were repeating itself.
+ *
+ * What it keeps is what exists nowhere else: the cinematic sequence, one
+ * short statement of intent, and a set of doors. Each door is written in
+ * its own words rather than copied from the page it points at, so adding
+ * detail there can never create a duplicate here.
+ */
 
 /* ------------------------------------------------------------------
-   The four pillars, expanded into readable cards.
+   A single statement of intent.
    ------------------------------------------------------------------ */
-export function PillarsSection() {
+export function VisionSection() {
   return (
-    <Section id="pillars">
-      <SectionHeading
-        eyebrow="The Four Movements"
-        title={
-          <>
-            From the self outward,
-            <br />
-            until it reaches everyone.
-          </>
-        }
-        lead="The mission is a sequence, not a menu. Each stage makes the next one possible — a person who has built themselves can build a family; a society of such families can build a nation; nations built this way can build humanity."
+    <Section className="text-center">
+      <div
+        aria-hidden
+        className="bloom left-1/2 top-1/2 h-[26rem] w-[46rem] -translate-x-1/2 -translate-y-1/2"
+        style={{
+          background:
+            "radial-gradient(closest-side, rgba(228,174,20,0.14), transparent)",
+        }}
       />
-
-      <div className="mt-16 grid gap-5 md:grid-cols-2">
-        {PILLARS.map((p, i) => (
-          <Reveal key={p.id} delay={i * 0.07}>
-            <article
-              id={p.id}
-              className="panel panel-hover group h-full p-8 md:p-10"
-              style={{ scrollMarginTop: "6rem" }}
-            >
-              <div className="flex items-baseline gap-4">
-                <span className="display text-4xl text-gold/25">
-                  0{i + 1}
-                </span>
-                <h3 className="display text-3xl text-starlight md:text-4xl">
-                  {p.title}
-                </h3>
-              </div>
-              <p className="eyebrow mt-4 text-gold/60">{p.sub}</p>
-              <p className="mt-5 leading-relaxed text-starlight-dim">
-                {p.body}
-              </p>
-            </article>
-          </Reveal>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-/* ------------------------------------------------------------------
-   Holistic Four + Global Four.
-   ------------------------------------------------------------------ */
-export function FrameworkSection() {
-  return (
-    <Section id="framework" variant="canvas">
-      <SectionHeading
-        variant="canvas"
-        eyebrow="The Holistic Framework"
-        title="Four dimensions of a whole life. Four of a whole world."
-        lead="Education, wellness, welfare and wealth are treated as one system rather than four departments — because in a real life they have never been separable."
-      />
-
-      <div className="mt-16 grid gap-10 lg:grid-cols-2">
-        <FourGrid
-          label="Holistic"
-          items={HOLISTIC}
-          accent="var(--color-verdant-deep)"
-        />
-        <FourGrid label="Global" items={GLOBAL} accent="var(--color-gold-deep)" />
-      </div>
-
       <Reveal>
-        <div className="mt-14 flex flex-wrap items-center gap-3">
-          <ButtonLink href="/mission" variant="primary">
-            Explore the Mission
-          </ButtonLink>
-          <Link
-            href="/framework"
-            className="inline-flex items-center gap-2 rounded-full border border-canvas-border px-7 py-3.5 text-sm text-canvas-ink transition-colors hover:border-verdant-deep hover:text-verdant-deep"
-          >
-            All twelve dimensions <SoonBadge className="border-canvas-border text-verdant-deep/70" />
-          </Link>
-        </div>
+        <p className="eyebrow text-gold/75">Our Vision</p>
+      </Reveal>
+      <Reveal delay={0.08}>
+        <p className="display mx-auto mt-8 max-w-4xl text-[clamp(1.5rem,4vw,2.9rem)] leading-[1.25] text-starlight">
+          {SITE.vision}
+        </p>
+      </Reveal>
+      <Reveal delay={0.16}>
+        <p className="eyebrow mt-10 text-starlight-faint">{SITE.creed}</p>
       </Reveal>
     </Section>
   );
 }
 
-function FourGrid({
-  label,
-  items,
-  accent,
-}: {
+/* ------------------------------------------------------------------
+   The doors.
+   ------------------------------------------------------------------ */
+
+interface Door {
+  href: string;
   label: string;
-  items: { title: string; body: string }[];
-  accent: string;
-}) {
-  return (
-    <div>
-      <Reveal>
-        <p
-          className="eyebrow mb-6 border-b border-canvas-border pb-4"
-          style={{ color: accent }}
-        >
-          {label}
-        </p>
-      </Reveal>
-      <div className="grid gap-px overflow-hidden rounded-card bg-canvas-border sm:grid-cols-2">
-        {items.map((item, i) => (
-          <Reveal key={item.title} delay={i * 0.05}>
-            <div className="h-full bg-canvas-raised p-6 transition-colors duration-500 hover:bg-canvas">
-              <h3 className="display text-xl text-canvas-ink">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-canvas-muted">
-                {item.body}
-              </p>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-    </div>
-  );
+  line: string;
+  meta: string;
+  soon?: boolean;
 }
 
-/* ------------------------------------------------------------------
-   Journey teaser — a horizontal constellation of the founder's path.
-   ------------------------------------------------------------------ */
-export function JourneySection() {
-  const highlights = JOURNEY.filter((_, i) =>
-    [0, 3, 4, 6, 8, 14, 16].includes(i),
-  );
+const DOORS: Door[] = [
+  {
+    href: "/mission",
+    label: "The Mission",
+    line: "Four movements that begin with one person and end with everyone.",
+    meta: "Build Self → Build Humanity",
+  },
+  {
+    href: "/journey",
+    label: "The Journey",
+    line: "A route through the life that built all of this, stop by stop.",
+    meta: "1967 – 2026 · 17 waypoints",
+  },
+  {
+    href: "/ecosystem",
+    label: "Ecosystem",
+    line: "The trusts, schools and ventures that carry the work on the ground.",
+    meta: "Entities & associates",
+  },
+  {
+    href: "/wisdom-park",
+    label: "Wisdom City",
+    line: "Where the mission stops being an idea and becomes a place.",
+    meta: "500 acres",
+    soon: true,
+  },
+  {
+    href: "/global-impact",
+    label: "Global Impact & Legacy",
+    line: "The crossing from insecurity-driven survival to purpose-led prosperity.",
+    meta: "Vision & legacy",
+  },
+  {
+    href: "/academy",
+    label: "Academy",
+    line: "Nine schools for the parts of a person a curriculum usually misses.",
+    meta: "Nine shalas",
+    soon: true,
+  },
+];
 
+export function ExploreSection() {
   return (
-    <Section id="journey">
+    <Section id="explore">
       <SectionHeading
-        eyebrow="The Journey"
-        title={
-          <>
-            Fifty-nine years,
-            <br />
-            one continuous line.
-          </>
-        }
-        lead={`${SITE.founder.name} — from building the self, to building a family, a society, institutions, a nation, and now a mission for humanity.`}
+        eyebrow="Where to begin"
+        title="Six ways into the mission."
+        lead="Each is a whole subject in itself. Start wherever the question you arrived with lives."
       />
 
-      <div className="mt-16 -mx-5 overflow-x-auto px-5 pb-6 md:mx-0 md:px-0">
-        <ol className="flex min-w-max gap-4">
-          {highlights.map((stop, i) => (
-            <Reveal key={stop.name} delay={i * 0.06}>
-              <li className="panel panel-hover w-60 p-6">
-                <p className="eyebrow text-gold/70">{stop.years}</p>
-                <h3 className="display mt-3 text-xl leading-tight text-starlight">
-                  {stop.name}
-                </h3>
-                <p className="mt-2.5 text-xs leading-relaxed text-starlight-faint">
-                  {stop.note}
-                </p>
-              </li>
-            </Reveal>
-          ))}
-        </ol>
-      </div>
-
-      <Reveal>
-        <div className="mt-10">
-          <ButtonLink href="/journey" variant="ghost">
-            See the full journey, 1967 → 2026
-          </ButtonLink>
-        </div>
-      </Reveal>
-    </Section>
-  );
-}
-
-/* ------------------------------------------------------------------
-   Ecosystem — entities and associates.
-   ------------------------------------------------------------------ */
-export function EcosystemSection() {
-  return (
-    <Section id="ecosystem">
-      <SectionHeading
-        eyebrow="The Ecosystem"
-        title="One mission, many hands."
-        lead="Charitable trusts, schools, a holistic LLP, a gurukul, and a circle of associate ventures — each one an instrument of the same purpose."
-      />
-
-      <div className="mt-16 grid gap-10 lg:grid-cols-2">
-        <EntityColumn title="JagKalyan Entities" items={ENTITIES} accent="gold" />
-        <EntityColumn
-          title="JagKalyan Associates"
-          items={ASSOCIATES}
-          accent="verdant"
-        />
-      </div>
-
-      <Reveal>
-        <div className="mt-12 flex flex-wrap gap-3">
-          <ButtonLink href="/ecosystem">Explore the ecosystem</ButtonLink>
-          <ButtonLink href="/wisdom-park" variant="ghost">
-            JagKalyan Wisdom Park
-          </ButtonLink>
-        </div>
-      </Reveal>
-    </Section>
-  );
-}
-
-function EntityColumn({
-  title,
-  items,
-  accent,
-}: {
-  title: string;
-  items: { name: string; year?: string; role: string }[];
-  accent: "gold" | "verdant";
-}) {
-  return (
-    <div>
-      <Reveal>
-        <p
-          className={cn(
-            "eyebrow mb-2 border-b border-hairline pb-4",
-            accent === "gold" ? "text-gold/70" : "text-verdant-bright/70",
-          )}
-        >
-          {title}
-        </p>
-      </Reveal>
-      <ul>
-        {items.map((item, i) => (
-          <Reveal key={item.name} delay={i * 0.05}>
-            <li className="group flex items-start justify-between gap-6 border-b border-hairline/50 py-5">
+      <div className="mt-16 grid gap-px overflow-hidden rounded-card border border-hairline bg-hairline md:grid-cols-2">
+        {DOORS.map((d, i) => (
+          <Reveal key={d.href} delay={i * 0.05}>
+            <Link
+              href={d.href}
+              className="group flex h-full flex-col justify-between gap-8 bg-space p-8 transition-colors duration-500 hover:bg-space-raised md:p-10"
+            >
               <div>
-                <h3 className="display text-xl text-starlight transition-colors duration-300 group-hover:text-gold">
-                  {item.name}
+                <div className="flex items-start justify-between gap-4">
+                  <span className="font-mono text-[0.72rem] text-gold/70">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {d.soon && <SoonBadge />}
+                </div>
+
+                <h3 className="display mt-5 text-[clamp(1.6rem,3.4vw,2.4rem)] leading-tight text-starlight transition-colors duration-300 group-hover:text-gold">
+                  {d.label}
                 </h3>
-                <p className="mt-1 text-xs leading-relaxed text-starlight-faint">
-                  {item.role}
+                <p className="mt-3 max-w-sm text-sm leading-relaxed text-starlight-dim">
+                  {d.line}
                 </p>
               </div>
-              {item.year && (
-                <span className="shrink-0 pt-1 font-mono text-xs text-starlight-faint">
-                  {item.year}
+
+              <div className="flex items-center justify-between gap-4 border-t border-hairline/50 pt-5">
+                <span className="eyebrow text-[0.7rem] text-starlight-faint">
+                  {d.meta}
                 </span>
-              )}
-            </li>
-          </Reveal>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------
-   Institutions — the seven that build on the ground.
-   ------------------------------------------------------------------ */
-export function InstitutionsSection() {
-  return (
-    <Section id="institutions" variant="canvas">
-      <SectionHeading
-        variant="canvas"
-        eyebrow="A Self-Sustaining Ecosystem"
-        title="The institutions. One purpose."
-        lead="Education, social impact, service, enterprise, culture, research and governance — designed so that each one funds, feeds and strengthens the others."
-      />
-
-      <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {INSTITUTIONS.map((inst, i) => (
-          <Reveal key={inst.name} delay={i * 0.05}>
-            <article className="group h-full rounded-card border border-canvas-border bg-canvas-raised p-7 transition-all duration-500 hover:border-verdant-deep/40 hover:shadow-[0_18px_44px_-24px_rgba(14,74,18,0.5)]">
-              <span className="display text-3xl text-verdant-deep/20">
-                0{i + 1}
-              </span>
-              <h3 className="display mt-3 text-2xl leading-tight text-canvas-ink">
-                {inst.name}
-              </h3>
-              <p className="mt-2 text-sm font-medium text-verdant-deep">
-                {inst.role}
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-canvas-muted">
-                {inst.detail}
-              </p>
-            </article>
-          </Reveal>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-/* ------------------------------------------------------------------
-   Academy.
-   ------------------------------------------------------------------ */
-export function AcademySection() {
-  return (
-    <Section id="academy">
-      <SectionHeading
-        eyebrow="JagKalyan Academy"
-        title="Nine schools, one education."
-        lead="From coaching and health to purpose, nationhood, healing, geospatial AI and executive leadership — the shalas of the Academy teach the whole person."
-      />
-
-      <div className="mt-16 grid gap-px overflow-hidden rounded-card border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
-        {ACADEMY.map((a, i) => (
-          <Reveal key={a.name} delay={i * 0.04}>
-            <div className="group h-full bg-space p-7 transition-colors duration-500 hover:bg-space-raised">
-              <div className="flex items-start justify-between gap-3">
-                <h3 className="display text-xl text-starlight transition-colors group-hover:text-gold">
-                  {a.name}
-                </h3>
-                <SoonBadge />
+                <ArrowUpRight
+                  size={15}
+                  className="shrink-0 text-gold transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
               </div>
-              <p className="mt-3 text-sm leading-relaxed text-starlight-faint">
-                {a.body}
-              </p>
-            </div>
+            </Link>
           </Reveal>
         ))}
       </div>
-
-      <Reveal>
-        <div className="mt-12">
-          <ButtonLink href="/academy" variant="ghost">
-            About the Academy
-          </ButtonLink>
-        </div>
-      </Reveal>
-    </Section>
-  );
-}
-
-/* ------------------------------------------------------------------
-   Wisdom Park — 200 acres, shown as a proportional bar.
-   ------------------------------------------------------------------ */
-export function WisdomParkSection() {
-  return (
-    <Section id="wisdom-park">
-      <SectionHeading
-        eyebrow="JagKalyan Wisdom City"
-        title="Five hundred acres of the mission, made physical."
-        lead="Learn · Innovate · Serve · Sustain. A skills university, a gurukul, a wellness centre, data centres and an AI hub, industry, sport, organic farmland and homes — a self-reliant township for a better world."
-      />
-
-      <div className="mt-16 space-y-3">
-        {WISDOM_CITY.zones.slice(0, 8).map((zone, i) => (
-          <Reveal key={zone.name} delay={i * 0.04}>
-            <div className="group grid grid-cols-[1fr_auto] items-center gap-4 border-b border-hairline/50 py-4 md:grid-cols-[16rem_1fr_auto]">
-              <h3 className="text-sm text-starlight transition-colors group-hover:text-gold md:text-base">
-                {zone.name}
-              </h3>
-
-              <div className="col-span-2 order-3 md:order-none md:col-span-1">
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-space-veil">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{
-                      width: `${(zone.acres / 100) * 100}%`,
-                    }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 1.1,
-                      delay: 0.1 + i * 0.05,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                    className="h-full rounded-full bg-gradient-to-r from-verdant-deep via-verdant to-gold"
-                  />
-                </div>
-                <p className="mt-2 text-xs text-starlight-faint">{zone.note}</p>
-              </div>
-
-              <span className="font-mono text-sm text-gold">
-                {zone.acres}
-                <span className="ml-1 text-[0.72rem] text-starlight-faint">
-                  ac
-                </span>
-              </span>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-
-      <Reveal>
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-6">
-          <p className="display text-3xl text-starlight">
-            {WISDOM_CITY.statedTotal}
-            <span className="ml-2 text-lg text-starlight-faint">
-              acres in total
-            </span>
-          </p>
-          <ButtonLink href="/wisdom-park">See the master plan</ButtonLink>
-        </div>
-      </Reveal>
     </Section>
   );
 }
@@ -458,7 +197,7 @@ export function JoinSection() {
       <Reveal delay={0.3}>
         <Link
           href="/journey"
-          className="mt-16 inline-flex items-center gap-2 text-sm text-starlight-dim transition-colors hover:text-gold"
+          className="mt-16 inline-flex min-h-11 items-center gap-2 text-sm text-starlight-dim transition-colors hover:text-gold"
         >
           {SITE.founder.creed}
           <ArrowUpRight size={15} />
