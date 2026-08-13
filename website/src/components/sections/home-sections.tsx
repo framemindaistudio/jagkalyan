@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowUpRight } from "@phosphor-icons/react";
-import { SITE } from "@/lib/site";
+import { FOUNDER_PROFILE, SITE } from "@/lib/site";
 import {
   ButtonLink,
   Reveal,
@@ -77,7 +77,7 @@ const DOORS: Door[] = [
     href: "/journey",
     label: "The Journey",
     line: "A route through the life that built all of this, stop by stop.",
-    meta: "1967 – 2026 · 17 waypoints",
+    meta: `${FOUNDER_PROFILE.route} · 17 waypoints`,
   },
   {
     href: "/ecosystem",

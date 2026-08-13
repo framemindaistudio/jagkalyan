@@ -10,18 +10,15 @@ import { JourneyPath } from "@/components/sections/journey-path";
 import { FounderPortrait } from "@/components/sections/founder-portrait";
 import { FounderProfile } from "@/components/sections/founder-profile";
 import { BoardGallery } from "@/components/sections/board-gallery";
-import { JOURNEY, SITE } from "@/lib/site";
+import { FOUNDER_PROFILE, JOURNEY, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "The Journey",
   description:
-    "Dr. Jagdish Kalyandurgmath — from Build Self and Build Family through Build Society and Build Organisations, to Nation Building and Humanity Building missions. 1967 to 2026.",
+    "Dr. Jagdish Kalyandurgmath — from Build Self and Build Family through Build Society and Build Organisations, to Nation Building and Humanity Building missions. 1960 to date.",
 };
 
 export default function JourneyPage() {
-  const first = JOURNEY[0].years.slice(0, 4);
-  const last = JOURNEY[JOURNEY.length - 1].years.slice(0, 4);
-
   return (
     <>
       <PageHero
@@ -39,7 +36,7 @@ export default function JourneyPage() {
       >
         {/* Copy is capped short of the portrait so the two never fight. */}
         <div className="flex max-w-xl flex-wrap items-center gap-x-10 gap-y-5">
-          <Stat value={`${first}–${last}`} label="The route" />
+          <Stat value={FOUNDER_PROFILE.route} label="The route" />
           <Stat value={String(JOURNEY.length)} label="Waypoints" />
           <Stat value="4" label="Sectors" />
         </div>

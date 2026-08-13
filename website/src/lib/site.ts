@@ -123,7 +123,7 @@ export const GLOBAL: Dimension[] = [
 ];
 
 /* ------------------------------------------------------------------
-   Founder journey — 1967 to 2026.
+   Founder journey — 1960 to date.
    Build Self → Build Family → Build Society → Build Organisations →
    Nation Building → Humanity Building.
    ------------------------------------------------------------------ */
@@ -316,6 +316,14 @@ export const JOURNEY: JourneyStop[] = [
 export const FOUNDER_PROFILE = {
   name: "Prof. Jagadish Kalyandurgmath",
   experience: "40+ years",
+  /*
+    The span as the mission states it. Deliberately NOT derived from the
+    JOURNEY array: the first logged stop is 1967, but the client publishes
+    1960 as the start, and the route is ongoing rather than ending at the
+    last logged entry. Four places print this — keep it here so they cannot
+    drift apart.
+  */
+  route: "1960 – till date",
   titles:
     "Geomatics Scientist · Enterprise GIS Architect · Social Entrepreneur · Nation Building Missions Architect · Mentor & Advisor",
   summary:
@@ -763,7 +771,7 @@ export const NAV: NavSection[] = [
     href: "/journey",
     status: "live",
     primary: true,
-    blurb: "Dr. Jagdish Kalyandurgmath — 1967 to 2026.",
+    blurb: "Dr. Jagdish Kalyandurgmath — 1960 to date.",
   },
   {
     label: "Ecosystem",
