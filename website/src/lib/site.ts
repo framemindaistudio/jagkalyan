@@ -34,6 +34,9 @@ export const SITE = {
   shortName: "JagKalyan",
   domain: "jagkalyan.com",
   url: "https://jagkalyan.com",
+  /* GA4 measurement ID. Public by design — it ships in the page source of
+     every site running Google Analytics, so it is config, not a secret. */
+  analyticsId: "G-VPL16B68WR",
   sanskrit: "॥ सर्वे भवन्तु सुखिनः ॥",
   sanskritMeaning: "May all beings be happy",
   tagline: "For Humanity · Nature · Universal Well-being",

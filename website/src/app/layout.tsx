@@ -4,6 +4,7 @@ import { SITE } from "@/lib/site";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { Analytics } from "@/components/analytics";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -76,6 +77,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <Analytics />
         <SmoothScroll />
         <Header />
         <main id="main">{children}</main>
